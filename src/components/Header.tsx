@@ -45,7 +45,7 @@ export function Header() {
           <img
             src="/urban-t-logo.png"
             alt="Urban T Construction Co."
-            className="h-14 w-auto md:h-16"
+            className="h-12 w-auto md:h-14"
             width={256}
             height={256}
             onError={(e) => {
@@ -57,11 +57,8 @@ export function Header() {
             }}
           />
           <div className="flex flex-col">
-            <span className="font-display text-lg font-bold leading-none text-foreground md:text-xl">
+            <span className="font-display text-base font-bold leading-tight text-foreground md:text-lg">
               Urban T Construction
-            </span>
-            <span className="text-xs text-accent md:text-sm font-semibold">
-              by Algos
             </span>
           </div>
           <div className="hidden items-center gap-2">
@@ -73,7 +70,7 @@ export function Header() {
               <span className="text-xs text-muted-foreground md:text-sm">Construction Co.</span>
             </div>
           </div>
-          <span className="sr-only">Urban T Construction Co. by Algos</span>
+          <span className="sr-only">Urban T Construction Co.</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setMega(null)}>
