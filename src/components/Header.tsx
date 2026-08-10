@@ -41,7 +41,7 @@ export function Header() {
       </div>
 
       <div className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
-        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <img
             src="/urban-t-logo.png"
             alt="Urban T Construction Co."
@@ -56,6 +56,14 @@ export function Header() {
               if (fallback) fallback.style.display = 'flex';
             }}
           />
+          <div className="flex flex-col">
+            <span className="font-display text-lg font-bold leading-none text-foreground md:text-xl">
+              Urban T Construction
+            </span>
+            <span className="text-xs text-accent md:text-sm font-semibold">
+              by Algos
+            </span>
+          </div>
           <div className="hidden items-center gap-2">
             <div className="flex h-14 w-14 items-center justify-center bg-accent text-accent-foreground md:h-16 md:w-16">
               <span className="font-display text-2xl font-bold md:text-3xl">UT</span>
@@ -65,7 +73,7 @@ export function Header() {
               <span className="text-xs text-muted-foreground md:text-sm">Construction Co.</span>
             </div>
           </div>
-          <span className="sr-only">Urban T Construction Co.</span>
+          <span className="sr-only">Urban T Construction Co. by Algos</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setMega(null)}>
