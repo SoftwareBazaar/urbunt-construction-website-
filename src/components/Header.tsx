@@ -42,7 +42,21 @@ export function Header() {
 
       <div className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <div className="flex items-center gap-2">
+          <img
+            src="/urban-t-logo.png"
+            alt="Urban T Construction Co."
+            className="h-14 w-auto md:h-16"
+            width={256}
+            height={256}
+            onError={(e) => {
+              // Fallback to styled text if logo image fails to load
+              const target = e.target as HTMLImageElement;
+              target.style.display = 'none';
+              const fallback = target.nextElementSibling as HTMLElement;
+              if (fallback) fallback.style.display = 'flex';
+            }}
+          />
+          <div className="hidden items-center gap-2">
             <div className="flex h-14 w-14 items-center justify-center bg-accent text-accent-foreground md:h-16 md:w-16">
               <span className="font-display text-2xl font-bold md:text-3xl">UT</span>
             </div>

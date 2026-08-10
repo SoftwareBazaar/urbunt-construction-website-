@@ -39,12 +39,18 @@ function Home() {
   return (
     <SiteLayout>
       <section className="relative isolate min-h-[600px] overflow-hidden lg:h-[86vh] lg:max-h-[860px] lg:min-h-[640px]">
-        <img
-          src={heroImg}
-          alt="Urban T Construction"
+        <video
           className="absolute inset-0 -z-10 size-full object-cover"
-          loading="eager"
-        />
+          autoPlay
+          muted
+          loop
+          playsInline
+          poster={heroImg}
+          aria-hidden="true"
+        >
+          <source src="/urban-t-hero.webm" type="video/webm" />
+          <source src="/urban-t-hero.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-hero)" }} />
 
         <div className="container-x flex h-full min-h-[600px] flex-col justify-end pb-14 pt-28 text-primary-foreground">
