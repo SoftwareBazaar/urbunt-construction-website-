@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
-import logo from "@/assets/urban-t-logo.png.asset.json";
 import { company, packages, services, serviceGroups, whatsappLink } from "@/data/site";
 
 const nav = [
@@ -43,13 +42,15 @@ export function Header() {
 
       <div className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
         <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <img
-            src={logo.url}
-            alt="Urban T Construction Co."
-            className="h-14 w-auto md:h-16"
-            width={256}
-            height={256}
-          />
+          <div className="flex items-center gap-2">
+            <div className="flex h-14 w-14 items-center justify-center bg-accent text-accent-foreground md:h-16 md:w-16">
+              <span className="font-display text-2xl font-bold md:text-3xl">UT</span>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-display text-lg font-bold leading-none md:text-xl">Urban T</span>
+              <span className="text-xs text-muted-foreground md:text-sm">Construction Co.</span>
+            </div>
+          </div>
           <span className="sr-only">Urban T Construction Co.</span>
         </Link>
 

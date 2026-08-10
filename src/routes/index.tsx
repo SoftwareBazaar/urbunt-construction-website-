@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Star, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-site.jpg";
-import heroVideo from "@/assets/urban-t-hero.webm.asset.json";
 
 import residential from "@/assets/project-residential.jpg";
 import commercial from "@/assets/project-commercial.jpg";
@@ -40,18 +39,12 @@ function Home() {
   return (
     <SiteLayout>
       <section className="relative isolate min-h-[600px] overflow-hidden lg:h-[86vh] lg:max-h-[860px] lg:min-h-[640px]">
-        <video
+        <img
+          src={heroImg}
+          alt="Urban T Construction"
           className="absolute inset-0 -z-10 size-full object-cover"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={heroImg}
-          aria-hidden="true"
-        >
-          <source src={heroVideo.url} type="video/webm" />
-        </video>
+          loading="eager"
+        />
         <div className="absolute inset-0 -z-10" style={{ background: "var(--gradient-hero)" }} />
 
         <div className="container-x flex h-full min-h-[600px] flex-col justify-end pb-14 pt-28 text-primary-foreground">
