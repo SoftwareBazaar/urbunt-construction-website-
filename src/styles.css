@@ -1,0 +1,170 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Urban T Construction Co. design system
+ * Deep navy authority + rust-orange safety accent + warm gold premium.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --font-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-foreground: var(--whatsapp-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  --background: oklch(0.98 0.006 85);
+  --foreground: oklch(0.22 0.03 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.03 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.03 260);
+
+  /* Deep navy */
+  --primary: oklch(0.24 0.055 262);
+  --primary-foreground: oklch(0.98 0.006 85);
+
+  /* Warm concrete */
+  --secondary: oklch(0.94 0.008 85);
+  --secondary-foreground: oklch(0.24 0.055 262);
+
+  --muted: oklch(0.95 0.006 85);
+  --muted-foreground: oklch(0.5 0.02 260);
+
+  /* Rust-orange safety accent */
+  --accent: oklch(0.63 0.19 42);
+  --accent-foreground: oklch(0.99 0.005 85);
+
+  /* Warm gold */
+  --gold: oklch(0.77 0.13 82);
+  --gold-foreground: oklch(0.24 0.055 262);
+
+  --whatsapp: oklch(0.68 0.17 150);
+  --whatsapp-foreground: oklch(0.15 0.02 150);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+
+  --border: oklch(0.89 0.01 85);
+  --input: oklch(0.89 0.01 85);
+  --ring: oklch(0.63 0.19 42);
+
+  --gradient-hero: linear-gradient(
+    100deg,
+    color-mix(in oklab, var(--primary) 92%, transparent) 0%,
+    color-mix(in oklab, var(--primary) 72%, transparent) 38%,
+    color-mix(in oklab, var(--primary) 22%, transparent) 70%,
+    color-mix(in oklab, var(--primary) 34%, transparent) 100%
+  );
+
+
+  --gradient-accent: linear-gradient(100deg, var(--accent), var(--gold));
+  --shadow-lift: 0 24px 60px -28px color-mix(in oklab, var(--primary) 55%, transparent);
+  --shadow-card: 0 1px 2px color-mix(in oklab, var(--primary) 8%, transparent),
+    0 12px 32px -22px color-mix(in oklab, var(--primary) 40%, transparent);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+@utility container-x {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-inline: 1.25rem;
+}
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+@utility surface-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+@utility rule-accent {
+  background-image: var(--gradient-accent);
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #estimate-print,
+  #estimate-print * {
+    visibility: visible;
+  }
+  #estimate-print {
+    position: absolute;
+    inset: 0;
+    display: block;
+    padding: 24px;
+    color: #000;
+    background: #fff;
+  }
+}
