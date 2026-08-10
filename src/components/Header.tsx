@@ -41,14 +41,13 @@ export function Header() {
       </div>
 
       <div className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
-        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <img
             src="/urban-t-logo.png"
             alt="Urban T Construction Co."
-            className="h-10 w-auto object-contain md:h-12"
+            className="h-12 w-auto object-contain md:h-14"
             width={256}
             height={256}
-            style={{ mixBlendMode: 'multiply' }}
             onError={(e) => {
               // Fallback to styled text if logo image fails to load
               const target = e.target as HTMLImageElement;
@@ -57,13 +56,20 @@ export function Header() {
               if (fallback) fallback.style.display = 'flex';
             }}
           />
-          <div className="flex flex-col -space-y-0.5">
-            <span className="font-display text-sm font-bold leading-tight text-foreground md:text-base">
-              Urban T Construction
-            </span>
-            <span className="text-[10px] text-muted-foreground md:text-xs">
-              Built by Algos
-            </span>
+          <div className="flex flex-col justify-center">
+            <div className="flex items-baseline gap-1">
+              <span className="font-display text-xl font-bold leading-none tracking-tight text-foreground md:text-2xl">
+                URBAN
+              </span>
+              <span className="font-display text-xl font-bold leading-none tracking-tight text-accent md:text-2xl">
+                T
+              </span>
+            </div>
+            <div className="mt-0.5 flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-accent md:text-xs">
+              <span className="inline-block h-px w-2 bg-accent"></span>
+              <span>Construction Company</span>
+              <span className="inline-block h-px w-2 bg-accent"></span>
+            </div>
           </div>
           <div className="hidden items-center gap-2">
             <div className="flex h-14 w-14 items-center justify-center bg-accent text-accent-foreground md:h-16 md:w-16">
@@ -74,7 +80,7 @@ export function Header() {
               <span className="text-xs text-muted-foreground md:text-sm">Construction Co.</span>
             </div>
           </div>
-          <span className="sr-only">Urban T Construction Co.</span>
+          <span className="sr-only">Urban T Construction Company</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setMega(null)}>

@@ -9,18 +9,31 @@ export function Footer() {
     <footer className="mt-24 bg-primary text-primary-foreground">
       <div className="container-x grid gap-10 py-16 md:grid-cols-4">
         <div>
-          <div className="inline-flex">
+          <div className="flex items-center gap-3">
             <img
               src="/urban-t-logo.png"
               alt="Urban T Construction Co. logo"
-              className="h-20 w-auto object-contain md:h-24"
+              className="h-16 w-auto object-contain md:h-20"
               width={256}
               height={256}
-              style={{ mixBlendMode: 'lighten' }}
             />
+            <div className="flex flex-col justify-center">
+              <div className="flex items-baseline gap-1">
+                <span className="font-display text-2xl font-bold leading-none tracking-tight text-primary-foreground md:text-3xl">
+                  URBAN
+                </span>
+                <span className="font-display text-2xl font-bold leading-none tracking-tight text-gold md:text-3xl">
+                  T
+                </span>
+              </div>
+              <div className="mt-1 flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-gold md:text-xs">
+                <span className="inline-block h-px w-2 bg-gold"></span>
+                <span>Construction Company</span>
+                <span className="inline-block h-px w-2 bg-gold"></span>
+              </div>
+            </div>
           </div>
           <p className="mt-4 max-w-xs text-sm text-primary-foreground/70">{company.tagline}</p>
-          <p className="mt-2 text-xs text-primary-foreground/50">Built by Algos</p>
           <div className="mt-6 space-y-2 text-sm text-primary-foreground/80">
             <a href={company.phoneHref} className="flex items-center gap-2 hover:text-gold">
               <Phone className="size-4" /> {company.phone}
