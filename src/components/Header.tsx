@@ -41,11 +41,11 @@ export function Header() {
       </div>
 
       <div className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
-        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <img
             src="/urban-t-logo.png"
             alt="Urban T Construction Co."
-            className="h-12 w-auto md:h-14"
+            className="h-10 w-auto md:h-12"
             width={256}
             height={256}
             onError={(e) => {
@@ -56,9 +56,12 @@ export function Header() {
               if (fallback) fallback.style.display = 'flex';
             }}
           />
-          <div className="flex flex-col">
-            <span className="font-display text-base font-bold leading-tight text-foreground md:text-lg">
+          <div className="flex flex-col -space-y-0.5">
+            <span className="font-display text-sm font-bold leading-tight text-foreground md:text-base">
               Urban T Construction
+            </span>
+            <span className="text-[10px] text-muted-foreground md:text-xs">
+              Built by Algos
             </span>
           </div>
           <div className="hidden items-center gap-2">

@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Newsletter } from "./Newsletter";
-import logo from "@/assets/urban-t-logo.png.asset.json";
 import { company, packages, services, socials, whatsappLink } from "@/data/site";
 
 
@@ -12,14 +11,15 @@ export function Footer() {
         <div>
           <div className="inline-flex items-center justify-center rounded-lg bg-primary-foreground p-3 shadow-lg shadow-black/10">
             <img
-              src={logo.url}
+              src="/urban-t-logo.png"
               alt="Urban T Construction Co. logo"
-              className="h-24 w-auto md:h-28"
+              className="h-20 w-auto md:h-24"
               width={256}
               height={256}
             />
           </div>
           <p className="mt-4 max-w-xs text-sm text-primary-foreground/70">{company.tagline}</p>
+          <p className="mt-2 text-xs text-primary-foreground/50">Built by Algos</p>
           <div className="mt-6 space-y-2 text-sm text-primary-foreground/80">
             <a href={company.phoneHref} className="flex items-center gap-2 hover:text-gold">
               <Phone className="size-4" /> {company.phone}
@@ -112,7 +112,7 @@ export function Footer() {
 
       <div className="border-t border-primary-foreground/15">
         <div className="container-x flex flex-col gap-2 py-5 text-xs text-primary-foreground/60 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Urban T Construction Co. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Urban T Construction Co. All rights reserved. Built by Algos.</p>
           <p>From Foundation to Finishing — One Company, Every Trade.</p>
         </div>
       </div>
