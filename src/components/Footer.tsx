@@ -9,13 +9,14 @@ export function Footer() {
     <footer className="mt-24 bg-primary text-primary-foreground">
       <div className="container-x grid gap-10 py-16 md:grid-cols-4">
         <div>
-          <div className="inline-flex items-center justify-center rounded-lg bg-primary-foreground p-3 shadow-lg shadow-black/10">
+          <div className="inline-flex">
             <img
               src="/urban-t-logo.png"
               alt="Urban T Construction Co. logo"
-              className="h-20 w-auto md:h-24"
+              className="h-20 w-auto object-contain md:h-24"
               width={256}
               height={256}
+              style={{ mixBlendMode: 'lighten' }}
             />
           </div>
           <p className="mt-4 max-w-xs text-sm text-primary-foreground/70">{company.tagline}</p>

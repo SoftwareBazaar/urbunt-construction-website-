@@ -45,9 +45,10 @@ export function Header() {
           <img
             src="/urban-t-logo.png"
             alt="Urban T Construction Co."
-            className="h-10 w-auto md:h-12"
+            className="h-10 w-auto object-contain md:h-12"
             width={256}
             height={256}
+            style={{ mixBlendMode: 'multiply' }}
             onError={(e) => {
               // Fallback to styled text if logo image fails to load
               const target = e.target as HTMLImageElement;
