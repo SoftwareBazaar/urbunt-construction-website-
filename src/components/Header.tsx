@@ -41,46 +41,19 @@ export function Header() {
       </div>
 
       <div className="container-x flex h-[4.5rem] items-center justify-between gap-6 md:h-20">
-        <Link to="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex items-center" onClick={() => setOpen(false)}>
           <img
             src="/urban-t-logo.png"
             alt="Urban T Construction Co."
-            className="h-12 w-auto object-contain md:h-14"
+            className="h-16 w-auto md:h-20"
             width={256}
             height={256}
             onError={(e) => {
-              // Fallback to styled text if logo image fails to load
               const target = e.target as HTMLImageElement;
               target.style.display = 'none';
-              const fallback = target.nextElementSibling as HTMLElement;
-              if (fallback) fallback.style.display = 'flex';
             }}
           />
-          <div className="flex flex-col justify-center">
-            <div className="flex items-baseline gap-1">
-              <span className="font-display text-xl font-bold leading-none tracking-tight text-foreground md:text-2xl">
-                URBAN
-              </span>
-              <span className="font-display text-xl font-bold leading-none tracking-tight text-accent md:text-2xl">
-                T
-              </span>
-            </div>
-            <div className="mt-0.5 flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wider text-accent md:text-xs">
-              <span className="inline-block h-px w-2 bg-accent"></span>
-              <span>Construction Company</span>
-              <span className="inline-block h-px w-2 bg-accent"></span>
-            </div>
-          </div>
-          <div className="hidden items-center gap-2">
-            <div className="flex h-14 w-14 items-center justify-center bg-accent text-accent-foreground md:h-16 md:w-16">
-              <span className="font-display text-2xl font-bold md:text-3xl">UT</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display text-lg font-bold leading-none md:text-xl">Urban T</span>
-              <span className="text-xs text-muted-foreground md:text-sm">Construction Co.</span>
-            </div>
-          </div>
-          <span className="sr-only">Urban T Construction Company</span>
+          <span className="sr-only">Urban T Construction Co.</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setMega(null)}>
