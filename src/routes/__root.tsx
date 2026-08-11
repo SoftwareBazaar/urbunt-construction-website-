@@ -77,24 +77,58 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Urban T Construction Co. | Full-Service Construction, Nairobi" },
+      { title: "Urban T Construction Co. | Full-Service Construction Company in Nairobi, Kenya" },
       {
         name: "description",
         content:
-          "From architecture and BOQ to finishing — turnkey builds and single trades. Transparent pricing, fixed timelines, quotes on WhatsApp in minutes.",
+          "Leading construction company in Nairobi offering turnkey builds, architecture, masonry, roofing, electrical, plumbing & finishing. NCA registered. 540+ projects completed. Get free quote on WhatsApp.",
+      },
+      {
+        name: "keywords",
+        content: "construction company Nairobi, builders Kenya, NCA registered contractor, house construction Kenya, commercial building Nairobi, turnkey construction, BOQ pricing, architecture design Kenya",
       },
       { name: "author", content: "Urban T Construction Co." },
-      { property: "og:title", content: "Urban T Construction Co. | Full-Service Construction, Nairobi" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" },
+      { name: "googlebot", content: "index, follow" },
+      
+      // Open Graph / Facebook
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://urbantconstruction.com/" },
+      { property: "og:site_name", content: "Urban T Construction Co." },
+      { property: "og:title", content: "Urban T Construction Co. | Full-Service Construction Company in Nairobi" },
       {
         property: "og:description",
-        content: "From architecture and BOQ to finishing — turnkey builds and single trades. Transparent pricing, fixed timelines, quotes on WhatsApp in minutes.",
+        content: "From Foundation to Finishing — One Company, Every Trade. NCA registered contractor with 540+ projects. Transparent BOQ pricing & fixed timelines. Get your free quote today.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://urbantconstruction.com/og-image.png" },
+      { property: "og:image:alt", content: "Urban T Construction Co. - Full-Service Construction in Nairobi, Kenya" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:locale", content: "en_KE" },
+      
+      // Twitter Card
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Urban T Construction Co. | Full-Service Construction, Nairobi" },
-      { name: "twitter:description", content: "From architecture and BOQ to finishing — turnkey builds and single trades. Transparent pricing, fixed timelines, quotes on WhatsApp in minutes." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a26e3360-6f1d-43a5-92f6-20e3a1ca9952/id-preview-77db58ef--2840d4f0-83f2-4534-9cd7-36f90ace2a47.lovable.app-1785559674698.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a26e3360-6f1d-43a5-92f6-20e3a1ca9952/id-preview-77db58ef--2840d4f0-83f2-4534-9cd7-36f90ace2a47.lovable.app-1785559674698.png" },
+      { name: "twitter:site", content: "@urbantconstruction" },
+      { name: "twitter:title", content: "Urban T Construction Co. | Full-Service Construction in Nairobi" },
+      { name: "twitter:description", content: "From Foundation to Finishing — One Company, Every Trade. NCA registered · 540+ projects · 96% on-time completion. Get free quote on WhatsApp." },
+      { name: "twitter:image", content: "https://urbantconstruction.com/og-image.png" },
+      { name: "twitter:image:alt", content: "Urban T Construction Co. - Leading Construction Company in Nairobi, Kenya" },
+      
+      // Additional SEO
+      { name: "geo.region", content: "KE-110" },
+      { name: "geo.placename", content: "Nairobi" },
+      { name: "geo.position", content: "-1.286389;36.817223" },
+      { name: "ICBM", content: "-1.286389, 36.817223" },
+      
+      // Theme & Mobile
+      { name: "theme-color", content: "#1a2332" },
+      { name: "msapplication-TileColor", content: "#1a2332" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "Urban T Construction" },
+      
+      // Verification (add these when ready)
+      // { name: "google-site-verification", content: "your-verification-code" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
