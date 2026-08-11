@@ -9,13 +9,15 @@ export function Footer() {
     <footer className="mt-24 bg-primary text-primary-foreground">
       <div className="container-x grid gap-10 py-16 md:grid-cols-4">
         <div>
-          <img
-            src="/urban-t-logo.png"
-            alt="Urban T Construction Co. logo"
-            className="h-24 w-auto md:h-32"
-            width={256}
-            height={256}
-          />
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 w-fit">
+            <img
+              src="/urban-t-logo.png"
+              alt="Urban T Construction Co. logo"
+              className="h-20 w-auto md:h-24"
+              width={256}
+              height={256}
+            />
+          </div>
           <p className="mt-4 max-w-xs text-sm text-primary-foreground/70">{company.tagline}</p>
           <div className="mt-6 space-y-2 text-sm text-primary-foreground/80">
             <a href={company.phoneHref} className="flex items-center gap-2 hover:text-gold">
