@@ -4,8 +4,8 @@ export const company = {
   phone: "+254 111 770 039",
   phoneHref: "tel:+254111770039",
   whatsapp: "254111770039",
-  email: "info@urbantconstruction.co.ke",
-  address: "Westlands Business Park, Nairobi",
+  email: "Urbantconstructions@gmail.com",
+  address: "Westways arcade northern bypass",
   hours: "Mon–Sat, 7:30am – 6:00pm",
 };
 

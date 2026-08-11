@@ -138,10 +138,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             "Full-service construction company delivering turnkey contracts and individual trades with BOQ-based pricing.",
           slogan: "From Foundation to Finishing — One Company, Every Trade.",
           telephone: "+254111770039",
-          email: "info@urbantconstruction.co.ke",
+          email: "Urbantconstructions@gmail.com",
           address: {
             "@type": "PostalAddress",
-            streetAddress: "Westlands Business Park",
+            streetAddress: "Westways arcade northern bypass",
             addressLocality: "Nairobi",
             addressCountry: "KE",
           },
