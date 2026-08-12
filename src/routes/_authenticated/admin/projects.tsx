@@ -1,19 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Plus, Edit, Trash2, Upload, X } from "lucide-react";
+import { Plus, Edit, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({
-    meta: [
-      { title: "Project Management | Urban T Construction Co." },
-      { name: "description", content: "Manage client projects, milestones, and documents." },
-      { property: "og:title", content: "Project Management | Urban T Construction Co." },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
-  component: AdminDashboard,
+export const Route = createFileRoute("/_authenticated/admin/projects")({
+  component: ProjectManagement,
 });
 
 type Project = {
@@ -38,7 +30,7 @@ type User = {
   email: string;
 };
 
-function AdminDashboard() {
+function ProjectManagement() {
   const qc = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -69,48 +61,24 @@ function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-primary text-primary-foreground">
-        <div className="container-x flex flex-wrap items-center justify-between gap-4 py-5">
-          <div>
-            <p className="eyebrow text-gold">Admin Dashboard</p>
-            <h1 className="mt-1 font-display text-2xl font-extrabold">Project Management</h1>
-          </div>
-          <div className="flex items-center gap-4 text-sm">
-            <Link to="/leads" className="opacity-80 hover:opacity-100">
-              Leads
-            </Link>
-            <Link to="/" className="opacity-80 hover:opacity-100">
-              View site
-            </Link>
-            <button
-              type="button"
-              onClick={async () => {
-                await supabase.auth.signOut();
-                qc.clear();
-                window.location.href = "/auth";
-              }}
-              className="font-display text-sm font-bold uppercase text-gold"
-            >
-              Sign out
-            </button>
-          </div>
+    <div className="p-6 lg:p-10">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Project Management</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Manage client projects, milestones, and progress updates
+          </p>
         </div>
-      </header>
-
-      <main className="container-x py-10">
-        <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl">Client Projects</h2>
-          <button
-            onClick={() => {
-              setEditingProject(null);
-              setShowForm(true);
-            }}
-            className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-sm font-bold uppercase text-accent-foreground"
-          >
-            <Plus className="size-4" /> Add Project
-          </button>
-        </div>
+        <button
+          onClick={() => {
+            setEditingProject(null);
+            setShowForm(true);
+          }}
+          className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-sm font-bold uppercase text-accent-foreground"
+        >
+          <Plus className="size-4" /> Add Project
+        </button>
+      </div>
 
         {projects.isLoading ? (
           <p className="text-muted-foreground">Loading projects…</p>
@@ -181,7 +149,7 @@ function AdminDashboard() {
             }}
           />
         )}
-      </main>
+      </div>
     </div>
   );
 }
