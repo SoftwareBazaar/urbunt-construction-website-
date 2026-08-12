@@ -5,6 +5,7 @@ import heroImg from "@/assets/hero-site.jpg";
 import residential from "@/assets/project-residential.jpg";
 import commercial from "@/assets/project-commercial.jpg";
 import civil from "@/assets/project-civil.jpg";
+import makueniAerial from "@/assets/makueni-school-aerial-view.jpg";
 import { SiteLayout, TrustBar, SectionHeading } from "@/components/SiteLayout";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { SocialFeed } from "@/components/SocialFeed";
@@ -12,7 +13,7 @@ import { packages, pillars, projects, promotions, services, testimonials, whatsa
 import { posts } from "@/data/blog";
 
 
-const images: Record<string, string> = { residential, commercial, civil };
+const images: Record<string, string> = { residential, commercial, civil, makueni: makueniAerial };
 
 export const Route = createFileRoute("/")({
   head: () => ({

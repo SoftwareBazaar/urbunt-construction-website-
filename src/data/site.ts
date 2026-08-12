@@ -298,10 +298,23 @@ export type Project = {
   image: string;
   brief: string;
   trades: string[];
-  testimonial: { quote: string; author: string };
+  testimonial: { quote: string; author: string; role?: string };
 };
 
 export const projects: Project[] = [
+  {
+    slug: "makueni-school",
+    title: "Makueni School Complex",
+    type: "Commercial",
+    location: "Makueni County",
+    year: 2025,
+    duration: "8 months (planned 8)",
+    budget: "KSh 32M",
+    image: "makueni",
+    brief: "Complete educational facility with classrooms, administrative block, and playground infrastructure. Delivered on schedule with high-quality finishes suitable for institutional use.",
+    trades: ["architecture-design", "masonry", "roofing", "plastering-ceilings", "flooring", "painting-decor", "electrical", "plumbing", "landscaping"],
+    testimonial: { quote: "The quality of workmanship exceeded our expectations. Every detail was thoughtfully executed.", author: "Makueni School Management", role: "Client" },
+  },
   {
     slug: "karen-signature-villa",
     title: "Karen Signature Villa",
