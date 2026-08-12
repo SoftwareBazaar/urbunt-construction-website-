@@ -32,7 +32,7 @@ function AuthPage() {
   async function landing() {
     const { data } = await supabase.from("user_roles").select("role").limit(5);
     const staff = (data ?? []).some((r) => r.role === "admin" || r.role === "staff");
-    return staff ? ("/leads" as const) : ("/portal" as const);
+    return staff ? ("/admin" as const) : ("/portal" as const);
   }
 
   useEffect(() => {

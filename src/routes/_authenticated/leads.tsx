@@ -51,6 +51,7 @@ function LeadsDashboard() {
             <h1 className="mt-1 font-display text-2xl font-extrabold">Lead dashboard</h1>
           </div>
           <div className="flex items-center gap-4 text-sm">
+            <Link to="/admin" className="opacity-80 hover:opacity-100">Project Management</Link>
             <Link to="/" className="opacity-80 hover:opacity-100">View site</Link>
             <button
               type="button"
