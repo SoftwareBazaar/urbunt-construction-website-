@@ -30,9 +30,17 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
 
   async function landing() {
-    const { data } = await supabase.from("user_roles").select("role").limit(5);
-    const staff = (data ?? []).some((r) => r.role === "admin" || r.role === "staff");
-    return staff ? ("/admin" as const) : ("/portal" as const);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return "/portal" as const;
+    
+    const { data } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", user.id)
+      .limit(1);
+    
+    const isStaff = (data ?? []).some((r) => r.role === "admin" || r.role === "staff");
+    return isStaff ? ("/admin" as const) : ("/portal" as const);
   }
 
   useEffect(() => {
