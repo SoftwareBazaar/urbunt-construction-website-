@@ -109,7 +109,7 @@ function PackagePage() {
               >
                 <p className="eyebrow">{c.type} · {c.year}</p>
                 <p className="mt-2 font-display text-lg font-bold">{c.title}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{c.duration} · {c.budget}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{c.duration}</p>
               </Link>
             ))}
           </div>

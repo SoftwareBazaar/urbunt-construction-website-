@@ -195,7 +195,7 @@ function Home() {
               </div>
               <p className="eyebrow mt-4">{p.type} · {p.location}</p>
               <h3 className="mt-2 text-xl group-hover:text-accent">{p.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{p.duration} · {p.budget}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{p.duration}</p>
             </Link>
           ))}
         </div>

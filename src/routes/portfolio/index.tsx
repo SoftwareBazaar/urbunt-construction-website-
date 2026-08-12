@@ -20,7 +20,7 @@ export const Route = createFileRoute("/portfolio/")({
           "Completed villas, commercial fit-outs and civil works with BOQ summaries, planned-versus-actual timelines and client references.",
       },
       { property: "og:title", content: "Project Portfolio | Urban T Construction Co." },
-      { property: "og:description", content: "Case studies with timelines, budgets and client references." },
+      { property: "og:description", content: "Case studies with timelines and client references." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -103,7 +103,7 @@ function Portfolio() {
               <p className="eyebrow mt-4">{p.type} · {p.location} · {p.year}</p>
               <h2 className="mt-2 text-2xl group-hover:text-accent">{p.title}</h2>
               <p className="mt-2 text-muted-foreground">{p.brief}</p>
-              <p className="mt-3 font-display text-sm font-bold">{p.duration} · {p.budget}</p>
+              <p className="mt-3 font-display text-sm font-bold">{p.duration}</p>
             </Link>
           ))}
         </div>
