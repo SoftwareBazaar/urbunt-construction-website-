@@ -90,10 +90,9 @@ function CaseStudy() {
           />
         )}
 
-        <dl className="mt-10 grid gap-6 border-y border-border py-8 sm:grid-cols-4">
+        <dl className="mt-10 grid gap-6 border-y border-border py-8 sm:grid-cols-3">
           {[
             ["Timeline", project.duration],
-            ["Contract value", project.budget],
             ["Location", project.location],
             ["Completed", String(project.year)],
           ].map(([k, v]) => (
