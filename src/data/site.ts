@@ -432,9 +432,9 @@ export function getService(slug: string) {
 }
 
 export const socials = [
-  { name: "Instagram", handle: "@urbantconstruction", url: "https://instagram.com/" },
+  { name: "Instagram", handle: "@urbantconstructions", url: "https://www.instagram.com/urbantconstructions/" },
+  { name: "TikTok", handle: "@ngigymutembei", url: "https://www.tiktok.com/@ngigymutembei" },
   { name: "Facebook", handle: "Urban T Construction Co.", url: "https://facebook.com/" },
-  { name: "TikTok", handle: "@urbantconstruction", url: "https://tiktok.com/" },
   { name: "YouTube", handle: "Urban T Site Reels", url: "https://youtube.com/" },
   { name: "LinkedIn", handle: "Urban T Construction Co.", url: "https://linkedin.com/" },
   { name: "X", handle: "@urbantconstruction", url: "https://x.com/" },
