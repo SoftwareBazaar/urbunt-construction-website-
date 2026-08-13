@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Plus, Edit, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { AdminLayout } from "@/components/AdminLayout";
 
 export const Route = createFileRoute("/_authenticated/admin/projects")({
   component: ProjectManagement,
@@ -61,7 +62,8 @@ function ProjectManagement() {
   });
 
   return (
-    <div className="p-6 lg:p-10">
+    <AdminLayout>
+      <div className="p-6 lg:p-10">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Project Management</h1>
@@ -150,7 +152,7 @@ function ProjectManagement() {
           />
         )}
       </div>
-    </div>
+    </AdminLayout>
   );
 }
 

@@ -1,5 +1,5 @@
-import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { ReactNode, useState } from "react";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -13,17 +13,6 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/_authenticated/admin/")({
-  head: () => ({
-    meta: [
-      { title: "Admin Dashboard | Urban T Construction Co." },
-      { name: "description", content: "Complete admin control panel" },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
-  component: AdminLayout,
-});
-
 const navItems = [
   { to: "/admin/projects", label: "Projects", icon: LayoutDashboard },
   { to: "/admin/blog", label: "Blog", icon: FileText },
@@ -33,7 +22,7 @@ const navItems = [
   { to: "/leads", label: "Leads", icon: Inbox },
 ];
 
-function AdminLayout() {
+export function AdminLayout({ children }: { children: ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const qc = useQueryClient();
   const navigate = useNavigate();
@@ -65,7 +54,7 @@ function AdminLayout() {
           <nav className="flex-1 space-y-1 p-4">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = window.location.pathname.startsWith(item.to);
+              const isActive = typeof window !== "undefined" && window.location.pathname === item.to;
               
               return (
                 <Link
@@ -116,7 +105,7 @@ function AdminLayout() {
 
       {/* Main content */}
       <main className="flex-1 overflow-auto">
-        <Outlet />
+        {children}
       </main>
     </div>
   );

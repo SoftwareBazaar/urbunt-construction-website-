@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Shield, Trash2, Mail, Calendar, User as UserIcon, X, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { AdminLayout } from "@/components/AdminLayout";
 
 export const Route = createFileRoute("/_authenticated/admin/users")({
   component: UserManagement,
@@ -124,7 +125,8 @@ function UserManagement() {
   };
 
   return (
-    <div className="p-6 lg:p-10">
+    <AdminLayout>
+      <div className="p-6 lg:p-10">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">User Management</h1>
@@ -262,6 +264,7 @@ function UserManagement() {
         />
       )}
     </div>
+    </AdminLayout>
   );
 }
 

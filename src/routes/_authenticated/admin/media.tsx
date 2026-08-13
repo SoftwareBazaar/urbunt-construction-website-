@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useRef } from "react";
 import { Upload, Trash2, Copy, Check, Grid3x3, List, X, Image as ImageIcon, FileText, Film } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { AdminLayout } from "@/components/AdminLayout";
 
 export const Route = createFileRoute("/_authenticated/admin/media")({
   component: MediaLibrary,
@@ -140,7 +141,8 @@ function MediaLibrary() {
   };
 
   return (
-    <div className="p-6 lg:p-10">
+    <AdminLayout>
+      <div className="p-6 lg:p-10">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Media Library</h1>
@@ -357,6 +359,7 @@ function MediaLibrary() {
         <FileDetailModal file={selectedFile} onClose={() => setSelectedFile(null)} onCopyUrl={copyUrl} />
       )}
     </div>
+    </AdminLayout>
   );
 }
 

@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Save, RefreshCw, FileText, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { AdminLayout } from "@/components/AdminLayout";
 
 export const Route = createFileRoute("/_authenticated/admin/content")({
   component: ContentManagement,
@@ -156,7 +157,8 @@ function ContentManagement() {
   const field = "mt-1 w-full border border-input bg-background px-3 py-2.5 text-sm";
 
   return (
-    <div className="p-6 lg:p-10">
+    <AdminLayout>
+      <div className="p-6 lg:p-10">
       <div className="mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Content Management</h1>
@@ -279,5 +281,6 @@ function ContentManagement() {
         </p>
       </div>
     </div>
+    </AdminLayout>
   );
 }
