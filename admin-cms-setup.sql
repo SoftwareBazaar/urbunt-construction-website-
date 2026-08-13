@@ -147,6 +147,10 @@ CREATE POLICY "Admins can manage website content" ON website_content
 -- TRIGGERS
 -- =====================================================
 
+-- Drop existing triggers if they exist
+DROP TRIGGER IF EXISTS update_blog_posts_updated_at ON blog_posts;
+DROP TRIGGER IF EXISTS update_website_content_updated_at ON website_content;
+
 -- Update blog_posts updated_at
 CREATE TRIGGER update_blog_posts_updated_at BEFORE UPDATE ON blog_posts
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
