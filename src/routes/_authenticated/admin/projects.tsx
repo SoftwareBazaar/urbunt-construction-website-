@@ -51,13 +51,14 @@ function ProjectManagement() {
     },
   });
 
-  // Fetch all users
+  // Fetch all users (for client assignment dropdown)
   const users = useQuery({
     queryKey: ["admin", "users"],
     queryFn: async () => {
-      const { data, error } = await supabase.auth.admin.listUsers();
+      // Use database function instead of admin API
+      const { data, error } = await supabase.rpc("get_all_users");
       if (error) throw error;
-      return data.users.map((u) => ({ id: u.id, email: u.email || "" }));
+      return data as User[];
     },
   });
 

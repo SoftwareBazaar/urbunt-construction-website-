@@ -34,14 +34,10 @@ function UserManagement() {
   const usersQuery = useQuery({
     queryKey: ["admin", "users"],
     queryFn: async () => {
-      const { data, error } = await supabase.auth.admin.listUsers();
+      // Use database function instead of admin API
+      const { data, error } = await supabase.rpc("get_all_users");
       if (error) throw error;
-      return data.users.map((u) => ({
-        id: u.id,
-        email: u.email || "",
-        created_at: u.created_at,
-        last_sign_in_at: u.last_sign_in_at,
-      }));
+      return data as User[];
     },
   });
 
@@ -75,9 +71,9 @@ function UserManagement() {
       // Delete user roles first
       await supabase.from("user_roles").delete().eq("user_id", userId);
       
-      // Delete user from auth
-      const { error } = await supabase.auth.admin.deleteUser(userId);
-      if (error) throw error;
+      // Note: Deleting from auth.users requires service role
+      // Show error message instead
+      throw new Error("User deletion requires Supabase Dashboard access. Please delete users via Supabase Authentication panel.");
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["admin", "users"] });
@@ -134,12 +130,16 @@ function UserManagement() {
             Manage users, assign roles, and control access
           </p>
         </div>
-        <button
-          onClick={() => setShowCreateForm(true)}
-          className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-sm font-bold uppercase text-accent-foreground"
-        >
-          <Plus className="size-4" /> Create User
-        </button>
+      </div>
+
+      {/* Info about user creation */}
+      <div className="mb-6 rounded border-l-4 border-blue-500 bg-blue-50 p-4 dark:bg-blue-950/20">
+        <h3 className="font-bold text-blue-900 dark:text-blue-100">How to Add Users</h3>
+        <ul className="mt-2 space-y-1 text-sm text-blue-800 dark:text-blue-200">
+          <li>• <strong>For Clients:</strong> They sign up at <code className="rounded bg-blue-100 px-1 dark:bg-blue-900">/auth</code>, then you assign roles here</li>
+          <li>• <strong>For Staff/Admins:</strong> Create via <a href="https://supabase.com/dashboard/project/pkbmflosqanfarwghzjp/auth/users" target="_blank" rel="noreferrer" className="underline">Supabase Dashboard → Authentication → Users</a>, then assign roles here</li>
+          <li>• <strong>Change Roles:</strong> Use the dropdown next to any user below</li>
+        </ul>
       </div>
 
       {/* Stats */}
@@ -230,12 +230,10 @@ function UserManagement() {
 
                 <button
                   onClick={() => {
-                    if (confirm(`Delete user ${user.email}? This cannot be undone.`)) {
-                      deleteUser.mutate(user.id);
-                    }
+                    alert("To delete users, go to Supabase Dashboard → Authentication → Users. For security, user deletion requires service role access.");
                   }}
                   className="rounded border border-border p-2 hover:border-red-500 hover:text-red-500"
-                  title="Delete user"
+                  title="Delete user (requires Supabase Dashboard)"
                 >
                   <Trash2 className="size-4" />
                 </button>
@@ -252,141 +250,7 @@ function UserManagement() {
           )}
         </div>
       )}
-
-      {/* Create User Form */}
-      {showCreateForm && (
-        <CreateUserForm
-          onClose={() => setShowCreateForm(false)}
-          onSuccess={() => {
-            setShowCreateForm(false);
-            usersQuery.refetch();
-          }}
-        />
-      )}
     </div>
     </AdminLayout>
-  );
-}
-
-function CreateUserForm({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    role: "user",
-  });
-
-  const createMutation = useMutation({
-    mutationFn: async () => {
-      // Create user in auth
-      const { data: authData, error: authError } = await supabase.auth.admin.createUser({
-        email: formData.email,
-        password: formData.password,
-        email_confirm: true,
-      });
-
-      if (authError) throw authError;
-
-      // Add role if not 'user'
-      if (formData.role !== "user" && authData.user) {
-        const { error: roleError } = await supabase.from("user_roles").insert([
-          {
-            user_id: authData.user.id,
-            role: formData.role,
-          },
-        ]);
-        if (roleError) throw roleError;
-      }
-    },
-    onSuccess: () => onSuccess(),
-  });
-
-  const field = "mt-1 w-full border border-input bg-background px-3 py-2.5 text-sm";
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-md bg-card p-6">
-        <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-xl font-bold">Create New User</h3>
-          <button onClick={onClose} className="rounded p-1 hover:bg-secondary">
-            <X className="size-5" />
-          </button>
-        </div>
-
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            createMutation.mutate();
-          }}
-          className="space-y-4"
-        >
-          <div>
-            <label htmlFor="email" className="text-sm font-medium">
-              Email *
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className={field}
-              placeholder="user@example.com"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="text-sm font-medium">
-              Password *
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              minLength={8}
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className={field}
-              placeholder="Minimum 8 characters"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="role" className="text-sm font-medium">
-              Role
-            </label>
-            <select
-              id="role"
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className={field}
-            >
-              <option value="user">Client (Default)</option>
-              <option value="staff">Staff</option>
-              <option value="admin">Admin</option>
-            </select>
-            <p className="mt-1 text-xs text-muted-foreground">
-              Clients can view their projects. Staff and Admins can access the admin dashboard.
-            </p>
-          </div>
-
-          <div className="flex justify-end gap-3 border-t border-border pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="border border-border px-5 py-2.5 text-sm hover:bg-secondary"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={createMutation.isPending}
-              className="bg-accent px-5 py-2.5 font-display text-sm font-bold uppercase text-accent-foreground disabled:opacity-60"
-            >
-              {createMutation.isPending ? "Creating..." : "Create User"}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
   );
 }
