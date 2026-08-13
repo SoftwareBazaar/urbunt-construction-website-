@@ -95,6 +95,17 @@ ALTER TABLE blog_categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE media_library ENABLE ROW LEVEL SECURITY;
 ALTER TABLE website_content ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist (to avoid conflicts)
+DROP POLICY IF EXISTS "Anyone can view published blog posts" ON blog_posts;
+DROP POLICY IF EXISTS "Admins can do everything on blog posts" ON blog_posts;
+DROP POLICY IF EXISTS "Service role can do everything on blog posts" ON blog_posts;
+DROP POLICY IF EXISTS "Anyone can view blog categories" ON blog_categories;
+DROP POLICY IF EXISTS "Admins can manage blog categories" ON blog_categories;
+DROP POLICY IF EXISTS "Admins can manage media" ON media_library;
+DROP POLICY IF EXISTS "Service role can do everything on media" ON media_library;
+DROP POLICY IF EXISTS "Anyone can view website content" ON website_content;
+DROP POLICY IF EXISTS "Admins can manage website content" ON website_content;
+
 -- Blog posts - public can read published, admins can do everything
 CREATE POLICY "Anyone can view published blog posts" ON blog_posts 
   FOR SELECT USING (status = 'published');
