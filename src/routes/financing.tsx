@@ -35,7 +35,7 @@ const plans = [
     schedule: [
       "Materials invoiced at cost with supplier receipts attached",
       "Labour paid on completion and your sign-off",
-      "Jobs under KSh 50,000 payable on completion",
+      "Jobs over KSh 50,000 can be paid in installments",
       "Bundle 2+ trades for an automatic 4–12% discount",
     ],
     note: "No labour payment leaves your hands until you have inspected the work.",
