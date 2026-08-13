@@ -1,10 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Newsletter } from "./Newsletter";
-import { company, packages, services, socials, whatsappLink } from "@/data/site";
+import { packages, services, socials, whatsappLink } from "@/data/site";
+import { useCompanyInfo, useFooterContent } from "@/hooks/useWebsiteContent";
 
 
 export function Footer() {
+  const { company } = useCompanyInfo();
+  const { footer } = useFooterContent();
+
   return (
     <footer className="mt-24 bg-primary text-primary-foreground">
       <div className="container-x grid gap-10 py-16 md:grid-cols-4">
@@ -111,8 +115,8 @@ export function Footer() {
 
       <div className="border-t border-primary-foreground/15">
         <div className="container-x flex flex-col gap-2 py-5 text-xs text-primary-foreground/60 sm:flex-row sm:justify-between">
-          <p>© {new Date().getFullYear()} Urban T Construction Co. All rights reserved. Built by Algos.</p>
-          <p>From Foundation to Finishing — One Company, Every Trade.</p>
+          <p>{footer.copyright}</p>
+          <p>{footer.description}</p>
         </div>
       </div>
 

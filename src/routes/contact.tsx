@@ -4,7 +4,8 @@ import { SiteLayout, PageHero } from "@/components/SiteLayout";
 import { QuoteForm } from "@/components/QuoteForm";
 import { SocialFeed } from "@/components/SocialFeed";
 
-import { company, whatsappLink } from "@/data/site";
+import { whatsappLink } from "@/data/site";
+import { useCompanyInfo, useWebsiteContent } from "@/hooks/useWebsiteContent";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -24,34 +25,40 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-const channels = [
-  {
-    icon: MessageCircle,
-    title: "WhatsApp (fastest)",
-    detail: "Median reply in 4 minutes, business hours.",
-    action: { label: "Open WhatsApp", href: whatsappLink("Hi Urban T, I'd like a quote.") },
-  },
-  {
-    icon: Phone,
-    title: "Call us",
-    detail: company.phone,
-    action: { label: "Call now", href: company.phoneHref },
-  },
-  {
-    icon: Mail,
-    title: "Email",
-    detail: company.email,
-    action: { label: "Send email", href: `mailto:${company.email}` },
-  },
-];
-
 function Contact() {
+  const { company } = useCompanyInfo();
+  const { data: contactContent } = useWebsiteContent("contact");
+
+  const pageTitle = contactContent?.title || "Tell us the job. We'll come back with a number.";
+  const pageSubtitle = contactContent?.subtitle || "Three short steps. Select a full package or as many individual trades as you need — bundle discounts are calculated as you go.";
+
+  const channels = [
+    {
+      icon: MessageCircle,
+      title: "WhatsApp (fastest)",
+      detail: "Median reply in 4 minutes, business hours.",
+      action: { label: "Open WhatsApp", href: whatsappLink("Hi Urban T, I'd like a quote.") },
+    },
+    {
+      icon: Phone,
+      title: "Call us",
+      detail: company.phone,
+      action: { label: "Call now", href: company.phoneHref },
+    },
+    {
+      icon: Mail,
+      title: "Email",
+      detail: company.email,
+      action: { label: "Send email", href: `mailto:${company.email}` },
+    },
+  ];
+
   return (
     <SiteLayout>
       <PageHero
         eyebrow="Contact & quotes"
-        title="Tell us the job. We'll come back with a number."
-        intro="Three short steps. Select a full package or as many individual trades as you need — bundle discounts are calculated as you go."
+        title={pageTitle}
+        intro={pageSubtitle}
       />
 
       <section className="container-x pt-16">

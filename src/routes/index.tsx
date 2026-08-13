@@ -11,6 +11,7 @@ import { BeforeAfter } from "@/components/BeforeAfter";
 import { SocialFeed } from "@/components/SocialFeed";
 import { packages, pillars, projects, promotions, services, testimonials, whatsappLink } from "@/data/site";
 import { posts } from "@/data/blog";
+import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 
 
 const images: Record<string, string> = { residential, commercial, civil, makueni: makueniAerial };
@@ -37,6 +38,12 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { data: homepageContent } = useWebsiteContent("homepage");
+
+  const heroTitle = homepageContent?.hero_title || "From foundation to finishing — built on a price you can audit.";
+  const heroSubtitle = homepageContent?.hero_subtitle || "Turnkey contracts and single-trade jobs from the same crew. BOQ-based pricing, contracted completion dates, and a 96% on-time handover record.";
+  const heroCta = homepageContent?.hero_cta || "Start a full project";
+
   return (
     <SiteLayout>
       <section className="relative isolate min-h-[600px] overflow-hidden lg:h-[86vh] lg:max-h-[860px] lg:min-h-[640px]">
@@ -58,11 +65,10 @@ function Home() {
           <div className="max-w-2xl">
             <p className="eyebrow text-gold">One company, every trade</p>
             <h1 className="mt-3 text-[2rem] leading-[1.05] tracking-tight sm:text-4xl md:text-5xl lg:text-[3.4rem]">
-              From foundation to finishing — <span className="text-gold">built on a price you can audit.</span>
+              {heroTitle.split("—")[0]}— <span className="text-gold">{heroTitle.split("—")[1] || "built on a price you can audit."}</span>
             </h1>
             <p className="mt-5 max-w-lg text-base text-primary-foreground/75 md:text-[1.05rem]">
-              Turnkey contracts and single-trade jobs from the same crew. BOQ-based pricing,
-              contracted completion dates, and a 96% on-time handover record.
+              {heroSubtitle}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -70,7 +76,7 @@ function Home() {
                 to="/projects"
                 className="inline-flex items-center gap-2 bg-accent px-6 py-4 font-display text-sm font-bold uppercase tracking-wide text-accent-foreground transition-transform hover:-translate-y-0.5"
               >
-                Start a full project <ArrowRight className="size-4" />
+                {heroCta} <ArrowRight className="size-4" />
               </Link>
               <Link
                 to="/services"

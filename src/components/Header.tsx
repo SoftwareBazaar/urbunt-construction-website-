@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
-import { company, packages, services, serviceGroups, whatsappLink } from "@/data/site";
+import { packages, services, serviceGroups, whatsappLink } from "@/data/site";
+import { useCompanyInfo } from "@/hooks/useWebsiteContent";
 
 const nav = [
   { label: "Full Projects", to: "/projects" },
@@ -18,6 +19,7 @@ const nav = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [mega, setMega] = useState<null | "projects" | "services">(null);
+  const { company } = useCompanyInfo();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/70 bg-background/90 backdrop-blur-md">
