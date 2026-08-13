@@ -33,6 +33,7 @@ function MediaLibrary() {
   const [selectedFile, setSelectedFile] = useState<MediaFile | null>(null);
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadFolder, setUploadFolder] = useState<string>("general");
 
   // Fetch media files
   const media = useQuery({
@@ -111,7 +112,7 @@ function MediaLibrary() {
             file_type: fileType,
             file_size: file.size,
             mime_type: file.type,
-            folder: "general",
+            folder: uploadFolder,
             uploaded_by: user?.id || null,
           },
         ]);
@@ -150,13 +151,32 @@ function MediaLibrary() {
             Upload and manage images, videos, and documents
           </p>
         </div>
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          disabled={uploading}
-          className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-sm font-bold uppercase text-accent-foreground disabled:opacity-60"
-        >
-          <Upload className="size-4" /> {uploading ? "Uploading..." : "Upload Files"}
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="flex flex-col items-end">
+            <label htmlFor="upload-folder" className="text-xs text-muted-foreground mb-1">
+              Upload to folder:
+            </label>
+            <select
+              id="upload-folder"
+              value={uploadFolder}
+              onChange={(e) => setUploadFolder(e.target.value)}
+              className="border border-border bg-background px-3 py-2 text-sm"
+            >
+              <option value="general">General</option>
+              <option value="projects">Projects</option>
+              <option value="blog">Blog</option>
+              <option value="portfolio">Portfolio</option>
+              <option value="team">Team</option>
+            </select>
+          </div>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className="inline-flex items-center gap-2 bg-accent px-5 py-3 font-display text-sm font-bold uppercase text-accent-foreground disabled:opacity-60"
+          >
+            <Upload className="size-4" /> {uploading ? "Uploading..." : "Upload Files"}
+          </button>
+        </div>
         <input
           ref={fileInputRef}
           type="file"

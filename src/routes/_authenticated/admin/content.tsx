@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Save, RefreshCw, FileText, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminLayout } from "@/components/AdminLayout";
@@ -77,6 +77,58 @@ const contentSections = {
   ],
 };
 
+// Get default content from current site data
+function getDefaultContentForPage(page: string): Record<string, string> {
+  const defaults: Record<string, Record<string, string>> = {
+    homepage: {
+      hero_title: "Building Excellence, Delivering Dreams",
+      hero_subtitle: "From Foundation to Finishing — One Company, Every Trade.",
+      hero_cta: "Get Your Free Quote",
+      about_section_title: "Why Choose Urban T Construction",
+      about_section_text: "18 years of experience delivering quality construction projects across Kenya.",
+      features_title: "Our Core Values",
+    },
+    about: {
+      title: "About Urban T Construction Co.",
+      subtitle: "Building Kenya, One Project at a Time",
+      intro: "With 18 years of industry experience, we've delivered 540+ successful projects across residential, commercial, and civil sectors.",
+      mission: "To deliver exceptional construction services that exceed client expectations through quality workmanship, transparent pricing, and on-time completion.",
+      vision: "To be Kenya's most trusted construction company, known for our integrity, quality, and innovation.",
+      team_title: "Meet Our Expert Team",
+    },
+    services: {
+      title: "Our Services",
+      subtitle: "Comprehensive Construction Solutions",
+      description: "From architectural design to post-construction cleaning, we handle every aspect of your building project.",
+    },
+    contact: {
+      title: "Get In Touch",
+      subtitle: "Let's Build Something Amazing Together",
+      address: "Westways arcade northern bypass\nNairobi, Kenya",
+      phone: "+254 111 770 039",
+      email: "Urbantconstructions@gmail.com",
+      hours: "Monday - Saturday\n7:30am – 6:00pm",
+    },
+    footer: {
+      copyright: "© 2026 Urban T Construction Co. All rights reserved.",
+      description: "From Foundation to Finishing — One Company, Every Trade.",
+      social_facebook: "https://facebook.com/",
+      social_twitter: "https://twitter.com/",
+      social_instagram: "https://www.instagram.com/urbantconstructions/",
+      social_linkedin: "https://linkedin.com/",
+    },
+    company: {
+      name: "Urban T Construction Co.",
+      tagline: "From Foundation to Finishing — One Company, Every Trade.",
+      phone: "+254 111 770 039",
+      email: "Urbantconstructions@gmail.com",
+      address: "Westways arcade northern bypass, Nairobi",
+    },
+  };
+
+  return defaults[page] || {};
+}
+
 function ContentManagement() {
   const qc = useQueryClient();
   const [selectedPage, setSelectedPage] = useState("homepage");
@@ -97,16 +149,21 @@ function ContentManagement() {
     },
   });
 
-  // Initialize edited content when data loads
-  useState(() => {
-    if (content.data) {
-      const initialContent: Record<string, string> = {};
+  // Initialize edited content when data loads or page changes
+  useEffect(() => {
+    if (content.data && content.data.length > 0) {
+      const pageContent: Record<string, string> = {};
       content.data.forEach((item) => {
-        initialContent[item.content_key] = item.content_value || "";
+        pageContent[item.content_key] = item.content_value || "";
       });
-      setEditedContent(initialContent);
+      setEditedContent(pageContent);
+    } else {
+      // Pre-populate with current site data
+      const defaultContent = getDefaultContentForPage(selectedPage);
+      setEditedContent(defaultContent);
     }
-  });
+    setHasChanges(false);
+  }, [content.data, selectedPage]);
 
   // Save content mutation
   const saveMutation = useMutation({
