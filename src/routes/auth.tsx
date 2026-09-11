@@ -1,65 +1,92 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
 
+const authSearchSchema = z.object({
+  next: z.string().optional().catch(undefined),
+});
+
 export const Route = createFileRoute("/auth")({
-  head: () => ({
-    meta: [
-      { title: "Client & Team Sign In | Urban T Construction Co." },
-      {
-        name: "description",
-        content: "Secure sign-in for the Urban T Construction Co. sales team to access the lead dashboard.",
-      },
-      { property: "og:title", content: "Client & Team Sign In | Urban T Construction Co." },
-      { property: "og:description", content: "Staff access to the Urban T lead dashboard." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  validateSearch: authSearchSchema,
+  head: ({ match }) => {
+    const next = match.search.next ?? "";
+    const isAdmin = next.startsWith("/admin") || next.startsWith("/leads");
+    return {
+      meta: [
+        {
+          title: isAdmin
+            ? "Admin Sign In | Urban T Construction Co."
+            : "Client Portal Sign In | Urban T Construction Co.",
+        },
+        {
+          name: "description",
+          content: isAdmin
+            ? "Staff sign-in for the Urban T admin dashboard."
+            : "Client sign-in for the Urban T project portal.",
+        },
+        { name: "robots", content: "noindex" },
+      ],
+    };
+  },
   component: AuthPage,
 });
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { next } = Route.useSearch();
+  const isAdminIntent = !!next && (next.startsWith("/admin") || next.startsWith("/leads"));
+
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function landing() {
+  async function resolveDestination() {
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return "/portal" as const;
-    
+    if (!user) return (next && next.startsWith("/") ? next : "/portal") as string;
+
     const { data } = await supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", user.id)
       .limit(1);
-    
+
     const isStaff = (data ?? []).some((r) => r.role === "admin" || r.role === "staff");
-    return isStaff ? ("/admin" as const) : ("/portal" as const);
+    const requested = next && next.startsWith("/") ? next : null;
+
+    if (requested?.startsWith("/admin") || requested?.startsWith("/leads")) {
+      return isStaff ? requested : "/portal";
+    }
+    if (requested === "/portal") return "/portal";
+    return isStaff ? "/admin" : "/portal";
   }
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data }) => {
-      if (data.session) navigate({ to: await landing() });
+      if (data.session) {
+        navigate({ to: (await resolveDestination()) as "/admin" | "/portal" | "/leads" });
+      }
     });
-  }, [navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, next]);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    const redirectTo = `${window.location.origin}${
+      next?.startsWith("/") ? next : isAdminIntent ? "/admin" : "/portal"
+    }`;
     const fn =
       mode === "signin"
         ? supabase.auth.signInWithPassword({ email: email.trim(), password })
         : supabase.auth.signUp({
             email: email.trim(),
             password,
-            options: { emailRedirectTo: `${window.location.origin}/portal` },
+            options: { emailRedirectTo: redirectTo },
           });
     const { error: err } = await fn;
     setBusy(false);
@@ -67,7 +94,7 @@ function AuthPage() {
       setError(err.message);
       return;
     }
-    navigate({ to: await landing() });
+    navigate({ to: (await resolveDestination()) as "/admin" | "/portal" | "/leads" });
   }
 
   const field = "mt-1 w-full border border-input bg-background px-3 py-2.5 text-sm";
@@ -75,32 +102,39 @@ function AuthPage() {
   return (
     <SiteLayout>
       <PageHero
-        eyebrow="Client & team access"
-        title="Sign in to your project portal"
-        intro="Clients track live progress, milestones, site photos and documents. Team members land in the lead dashboard."
+        eyebrow={isAdminIntent ? "Team access" : "Client & team access"}
+        title={isAdminIntent ? "Admin sign in" : "Sign in to your project portal"}
+        intro={
+          isAdminIntent
+            ? "Staff accounts land in the admin dashboard to manage projects, content and clients."
+            : "Clients track live progress, milestones, site photos and documents. Team members can continue to /admin."
+        }
       />
 
       <section className="container-x py-16">
         <div className="surface-card mx-auto max-w-md p-8">
-          <div className="flex gap-2">
-            {(["signin", "signup"] as const).map((m) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => setMode(m)}
-                className={`flex-1 border px-3 py-2 font-display text-sm font-bold uppercase ${
-                  mode === m ? "border-accent bg-accent text-accent-foreground" : "border-border"
-                }`}
-              >
-                {m === "signin" ? "Sign in" : "Create account"}
-              </button>
-            ))}
-          </div>
+          {!isAdminIntent ? (
+            <div className="flex gap-2">
+              {(["signin", "signup"] as const).map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => setMode(m)}
+                  className={`flex-1 border px-3 py-2 font-display text-sm font-bold uppercase ${
+                    mode === m ? "border-accent bg-accent text-accent-foreground" : "border-border"
+                  }`}
+                >
+                  {m === "signin" ? "Sign in" : "Create account"}
+                </button>
+              ))}
+            </div>
+          ) : null}
 
-
-          <form onSubmit={submit} className="mt-5 space-y-4">
+          <form onSubmit={submit} className={`space-y-4 ${isAdminIntent ? "" : "mt-5"}`}>
             <div>
-              <label htmlFor="auth-email" className="text-sm font-medium">Work email</label>
+              <label htmlFor="auth-email" className="text-sm font-medium">
+                Work email
+              </label>
               <input
                 id="auth-email"
                 type="email"
@@ -112,7 +146,9 @@ function AuthPage() {
               />
             </div>
             <div>
-              <label htmlFor="auth-password" className="text-sm font-medium">Password</label>
+              <label htmlFor="auth-password" className="text-sm font-medium">
+                Password
+              </label>
               <input
                 id="auth-password"
                 type="password"
@@ -134,7 +170,15 @@ function AuthPage() {
             </button>
           </form>
           <p className="mt-4 text-xs text-muted-foreground">
-            Dashboard data is visible only to accounts granted a staff or admin role.
+            Share{" "}
+            <a href="/admin" className="font-bold text-foreground underline-offset-2 hover:underline">
+              /admin
+            </a>{" "}
+            with staff and{" "}
+            <a href="/portal" className="font-bold text-foreground underline-offset-2 hover:underline">
+              /portal
+            </a>{" "}
+            with clients — each page has its own sign-in.
           </p>
         </div>
       </section>

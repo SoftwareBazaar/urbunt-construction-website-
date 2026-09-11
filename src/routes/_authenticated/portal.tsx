@@ -15,6 +15,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { whatsappLink } from "@/data/site";
 import { ScheduleManager } from "@/components/ScheduleManager";
+import { AccessLogin } from "@/components/AccessLogin";
 
 export const Route = createFileRoute("/_authenticated/portal")({
   head: () => ({
@@ -45,19 +46,27 @@ function ClientPortal() {
   const qc = useQueryClient();
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const projects = useQuery({
-    queryKey: ["portal", "projects"],
+  const session = useQuery({
+    queryKey: ["auth", "user"],
     queryFn: async () => {
-      // Get current logged-in user
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data, error } = await supabase.auth.getUser();
+      if (error) return null;
+      return data.user;
+    },
+  });
+
+  const projects = useQuery({
+    queryKey: ["portal", "projects", session.data?.id],
+    enabled: !!session.data?.id,
+    queryFn: async () => {
+      const user = session.data;
       if (!user) throw new Error("Not authenticated");
-      
-      // Only fetch projects for THIS user
+
       const { data, error } = await supabase
         .from("client_projects")
         .select("*")
-        .eq("client_user_id", user.id)  // ✅ Filter by logged-in user
-        .order("created_at", { ascending: false});
+        .eq("client_user_id", user.id)
+        .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
     },
@@ -87,6 +96,26 @@ function ClientPortal() {
     },
   });
 
+  if (session.isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background text-sm text-muted-foreground">
+        Loading…
+      </div>
+    );
+  }
+
+  if (!session.data) {
+    return (
+      <AccessLogin
+        audience="client"
+        onSuccess={() => {
+          qc.invalidateQueries({ queryKey: ["auth"] });
+          qc.invalidateQueries({ queryKey: ["portal"] });
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-primary text-primary-foreground">
@@ -103,7 +132,7 @@ function ClientPortal() {
                 await qc.cancelQueries();
                 qc.clear();
                 await supabase.auth.signOut();
-                window.location.href = "/auth";
+                window.location.href = "/portal";
               }}
               className="font-display text-sm font-bold uppercase text-gold"
             >

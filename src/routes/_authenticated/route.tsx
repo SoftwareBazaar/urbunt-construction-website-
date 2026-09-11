@@ -3,10 +3,20 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
-  beforeLoad: async () => {
+  beforeLoad: async ({ location }) => {
     const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
-    return { user: data.user };
+    const path = location.pathname;
+    // /admin and /portal show their own login screens so links can be shared directly
+    const inlineLogin = path === "/portal" || path.startsWith("/admin");
+
+    if ((error || !data.user) && !inlineLogin) {
+      throw redirect({
+        to: "/auth",
+        search: { next: path.startsWith("/") ? path : "/portal" },
+      });
+    }
+
+    return { user: data.user ?? null };
   },
   component: () => <Outlet />,
 });
