@@ -74,7 +74,7 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
 
   const filteredTasks = isAdmin 
     ? (tasks.data ?? []) 
-    : (tasks.data ?? []).filter(t => t.published);
+    : (tasks.data ?? []).filter(t => t.published !== false); // Show if published is true OR null (backwards compat)
 
   if (tasks.isLoading) return <p className="text-sm text-muted-foreground">Loading schedule...</p>;
   if (tasks.error) return <p className="text-sm text-red-500">Error loading schedule</p>;
@@ -139,7 +139,7 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                 <td className="px-3 py-2">
                   {isAdmin ? (
                     <select
-                      value={task.status}
+                      value={task.status || 'scheduled'}
                       onChange={(e) =>
                         updateTask.mutate({ id: task.id, updates: { status: e.target.value } })
                       }
@@ -154,10 +154,10 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                   ) : (
                     <span
                       className={`inline-block rounded px-2 py-1 text-xs font-bold uppercase ${
-                        statusColors[task.status as keyof typeof statusColors] || statusColors.scheduled
+                        statusColors[(task.status || 'scheduled') as keyof typeof statusColors]
                       }`}
                     >
-                      {statusLabels[task.status as keyof typeof statusLabels] || "Scheduled"}
+                      {statusLabels[(task.status || 'scheduled') as keyof typeof statusLabels]}
                     </span>
                   )}
                 </td>
@@ -167,7 +167,7 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                       <label className="flex items-center gap-2">
                         <input
                           type="checkbox"
-                          checked={task.published}
+                          checked={task.published !== false}
                           onChange={(e) =>
                             updateTask.mutate({ id: task.id, updates: { published: e.target.checked } })
                           }
