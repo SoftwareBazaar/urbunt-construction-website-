@@ -157,127 +157,126 @@ function ClientPortal() {
               ))}
             </aside>
 
-            <div className="space-y-8">
-              <section className="surface-card p-6 md:p-8">
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <h2 className="text-3xl">{current.title}</h2>
-                    <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-                      <MapPin className="size-4 text-accent" /> {current.location ?? "—"}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-display text-4xl font-extrabold text-accent">{current.progress}%</p>
-                    <p className="text-xs uppercase tracking-wide text-muted-foreground">Complete</p>
-                  </div>
+            <section className="surface-card p-6 md:p-8">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-3xl">{current.title}</h2>
+                  <p className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                    <MapPin className="size-4 text-accent" /> {current.location ?? "—"}
+                  </p>
                 </div>
-
-                <div className="mt-6 h-2 w-full bg-border">
-                  <div className="h-2 bg-accent" style={{ width: `${current.progress}%` }} />
+                <div className="text-right">
+                  <p className="font-display text-4xl font-extrabold text-accent">{current.progress}%</p>
+                  <p className="text-xs uppercase tracking-wide text-muted-foreground">Complete</p>
                 </div>
+              </div>
 
-                <dl className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                  <Stat icon={HardHat} label="Current stage" value={current.current_stage} />
-                  <Stat icon={CalendarDays} label="Started" value={date(current.start_date)} />
-                  <Stat icon={Clock} label="Target handover" value={date(current.target_date)} />
-                  <Stat icon={FileText} label="Contract value" value={money(current.contract_value)} />
-                </dl>
+              <div className="mt-6 h-2 w-full bg-border">
+                <div className="h-2 bg-accent" style={{ width: `${current.progress}%` }} />
+              </div>
 
-                {current.manager_name ? (
-                  <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-border pt-5">
-                    <p className="text-sm">
-                      Project manager: <span className="font-bold">{current.manager_name}</span>
-                    </p>
-                    {current.manager_phone ? (
-                      <a
-                        href={`tel:${current.manager_phone.replace(/\s+/g, "")}`}
-                        className="inline-flex items-center gap-1.5 text-sm font-bold text-accent"
-                      >
-                        <Phone className="size-4" /> {current.manager_phone}
-                      </a>
-                    ) : null}
+              <dl className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <Stat icon={HardHat} label="Current stage" value={current.current_stage} />
+                <Stat icon={CalendarDays} label="Started" value={date(current.start_date)} />
+                <Stat icon={Clock} label="Target handover" value={date(current.target_date)} />
+                <Stat icon={FileText} label="Contract value" value={money(current.contract_value)} />
+              </dl>
+
+              {current.manager_name ? (
+                <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-border pt-5">
+                  <p className="text-sm">
+                    Project manager: <span className="font-bold">{current.manager_name}</span>
+                  </p>
+                  {current.manager_phone ? (
                     <a
-                      href={whatsappLink(`Hi Urban T, a question about my project: ${current.title}`)}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="inline-flex items-center gap-2 bg-whatsapp px-4 py-2 font-display text-xs font-bold uppercase text-whatsapp-foreground"
+                      href={`tel:${current.manager_phone.replace(/\s+/g, "")}`}
+                      className="inline-flex items-center gap-1.5 text-sm font-bold text-accent"
                     >
-                      <MessageCircle className="size-4" /> Message the team
+                      <Phone className="size-4" /> {current.manager_phone}
                     </a>
-                  </div>
-                ) : null}
-              </section>
-
-              <section className="grid gap-8 lg:grid-cols-[240px_1fr]">
-                <div className="surface-card p-6">
-                  <p className="eyebrow">Milestones</p>
-                  <ol className="mt-4 space-y-4">
-                    {(detail.data?.milestones ?? []).map((m) => (
-                      <li key={m.id} className="flex gap-3">
-                        {m.status === "complete" ? (
-                          <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
-                        ) : (
-                          <Circle
-                            className={`mt-0.5 size-5 shrink-0 ${
-                              m.status === "in_progress" ? "text-accent" : "text-muted-foreground/50"
-                            }`}
-                          />
-                        )}
-                        <div>
-                          <p className="font-display font-bold">{m.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {m.status === "complete"
-                              ? `Completed ${date(m.actual_date)}`
-                              : `Planned ${date(m.planned_date)}`}
-                            {m.weight ? ` · ${m.weight}% of contract` : ""}
-                          </p>
-                          {m.notes ? <p className="mt-1 text-sm text-muted-foreground">{m.notes}</p> : null}
-                        </div>
-                      </li>
-                    ))}
-                    {detail.data && detail.data.milestones.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">Milestones are being scheduled.</p>
-                    ) : null}
-                  </ol>
+                  ) : null}
+                  <a
+                    href={whatsappLink(`Hi Urban T, a question about my project: ${current.title}`)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 bg-whatsapp px-4 py-2 font-display text-xs font-bold uppercase text-whatsapp-foreground"
+                  >
+                    <MessageCircle className="size-4" /> Message the team
+                  </a>
                 </div>
+              ) : null}
+            </section>
 
-                <div className="surface-card p-6">
-                  <p className="eyebrow">Schedule</p>
-                  <div className="mt-4">
-                    <ScheduleManager projectId={current.id} isAdmin={false} />
-                  </div>
-                </div>
-              </section>
-
-              <section className="surface-card p-6">
-                <p className="eyebrow">Documents</p>
-                <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                  {(detail.data?.documents ?? []).map((d) => (
-                    <li key={d.id}>
-                      <a
-                        href={d.file_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center gap-3 border border-border p-4 transition-colors hover:border-accent"
-                      >
-                        <FileText className="size-5 text-accent" />
-                        <span>
-                          <span className="block font-display font-bold">{d.name}</span>
-                          <span className="block text-xs uppercase tracking-wide text-muted-foreground">
-                            {d.doc_type}
-                          </span>
-                        </span>
-                      </a>
+            {/* Full-width row: reclaim empty space under the project switcher */}
+            <section className="grid gap-8 lg:col-span-2 lg:grid-cols-[320px_1fr]">
+              <div className="surface-card p-6">
+                <p className="eyebrow">Milestones</p>
+                <ol className="mt-4 space-y-4">
+                  {(detail.data?.milestones ?? []).map((m) => (
+                    <li key={m.id} className="flex gap-3">
+                      {m.status === "complete" ? (
+                        <CheckCircle2 className="mt-0.5 size-5 shrink-0 text-accent" />
+                      ) : (
+                        <Circle
+                          className={`mt-0.5 size-5 shrink-0 ${
+                            m.status === "in_progress" ? "text-accent" : "text-muted-foreground/50"
+                          }`}
+                        />
+                      )}
+                      <div>
+                        <p className="font-display font-bold">{m.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {m.status === "complete"
+                            ? `Completed ${date(m.actual_date)}`
+                            : `Planned ${date(m.planned_date)}`}
+                          {m.weight ? ` · ${m.weight}% of contract` : ""}
+                        </p>
+                        {m.notes ? <p className="mt-1 text-sm text-muted-foreground">{m.notes}</p> : null}
+                      </div>
                     </li>
                   ))}
-                </ul>
-                {detail.data && detail.data.documents.length === 0 ? (
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    Contracts, BOQs and permits will appear here as they are issued.
-                  </p>
-                ) : null}
-              </section>
-            </div>
+                  {detail.data && detail.data.milestones.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">Milestones are being scheduled.</p>
+                  ) : null}
+                </ol>
+              </div>
+
+              <div className="surface-card p-6">
+                <p className="eyebrow">Schedule</p>
+                <div className="mt-4">
+                  <ScheduleManager projectId={current.id} isAdmin={false} />
+                </div>
+              </div>
+            </section>
+
+            <section className="surface-card p-6 lg:col-span-2">
+              <p className="eyebrow">Documents</p>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {(detail.data?.documents ?? []).map((d) => (
+                  <li key={d.id}>
+                    <a
+                      href={d.file_url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="flex items-center gap-3 border border-border p-4 transition-colors hover:border-accent"
+                    >
+                      <FileText className="size-5 text-accent" />
+                      <span>
+                        <span className="block font-display font-bold">{d.name}</span>
+                        <span className="block text-xs uppercase tracking-wide text-muted-foreground">
+                          {d.doc_type}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              {detail.data && detail.data.documents.length === 0 ? (
+                <p className="mt-3 text-sm text-muted-foreground">
+                  Contracts, BOQs and permits will appear here as they are issued.
+                </p>
+              ) : null}
+            </section>
           </div>
         )}
       </div>
