@@ -242,32 +242,66 @@ function ClientPortal() {
 
                 <div className="surface-card p-6">
                   <p className="eyebrow">Site updates</p>
-                  <div className="mt-4 space-y-5">
-                    {(detail.data?.updates ?? []).map((u) => (
-                      <article key={u.id} className="border-l-2 border-accent pl-4">
-                        <p className="text-xs uppercase tracking-wide text-muted-foreground">
-                          {new Date(u.posted_at).toLocaleDateString("en-KE", { 
-                            weekday: 'short',
-                            day: "numeric", 
-                            month: "short", 
-                            year: "numeric" 
-                          })}
-                        </p>
-                        <p className="mt-1 font-display font-bold">{u.title}</p>
-                        {u.body ? <p className="mt-1 text-sm text-muted-foreground">{u.body}</p> : null}
-                        {u.photo_url ? (
-                          <img
-                            src={u.photo_url}
-                            alt={u.title}
-                            loading="lazy"
-                            className="mt-3 aspect-video w-full object-cover"
-                          />
-                        ) : null}
-                      </article>
-                    ))}
-                    {detail.data && detail.data.updates.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">No site updates posted yet.</p>
-                    ) : null}
+                  <div className="mt-4">
+                    {(detail.data?.updates ?? []).filter(u => u.published).length === 0 ? (
+                      <p className="text-sm text-muted-foreground">No published tasks yet. Check back soon.</p>
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b-2 border-accent">
+                              <th className="bg-primary px-3 py-2 text-left text-xs font-bold uppercase text-primary-foreground">Day</th>
+                              <th className="bg-primary px-3 py-2 text-left text-xs font-bold uppercase text-primary-foreground">Date</th>
+                              <th className="bg-primary px-3 py-2 text-left text-xs font-bold uppercase text-primary-foreground">Activity</th>
+                              <th className="bg-primary px-3 py-2 text-left text-xs font-bold uppercase text-primary-foreground">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {(detail.data?.updates ?? [])
+                              .filter(u => u.published)
+                              .sort((a, b) => new Date(a.posted_at).getTime() - new Date(b.posted_at).getTime())
+                              .map((u, idx) => {
+                                const date = new Date(u.posted_at);
+                                const dayName = date.toLocaleDateString("en-GB", { weekday: 'long' });
+                                const shortDate = date.toLocaleDateString("en-GB", { day: '2-digit', month: 'short' });
+                                const isSunday = date.getDay() === 0;
+                                
+                                const statusColors = {
+                                  scheduled: "bg-gray-100 text-gray-700",
+                                  progress: "bg-amber-100 text-amber-800",
+                                  completed: "bg-green-100 text-green-800",
+                                  hold: "bg-red-100 text-red-800",
+                                  delayed: "bg-red-100 text-red-800",
+                                };
+                                
+                                const statusLabels = {
+                                  scheduled: "Scheduled",
+                                  progress: "In Progress",
+                                  completed: "Completed",
+                                  hold: "Inspection Hold",
+                                  delayed: "Delayed",
+                                };
+
+                                return (
+                                  <tr 
+                                    key={u.id}
+                                    className={`border-b border-border ${isSunday ? 'bg-gray-50 italic text-gray-500' : idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/30'}`}
+                                  >
+                                    <td className="px-3 py-2">{dayName}</td>
+                                    <td className="px-3 py-2">{shortDate}</td>
+                                    <td className="px-3 py-2">{u.title}</td>
+                                    <td className="px-3 py-2">
+                                      <span className={`inline-block rounded px-2 py-1 text-xs font-bold uppercase ${statusColors[u.status || 'scheduled']}`}>
+                                        {statusLabels[u.status || 'scheduled']}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 </div>
               </section>

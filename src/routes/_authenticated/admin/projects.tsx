@@ -662,6 +662,9 @@ function UpdateForm({
     title: "",
     body: "",
     photo_url: "",
+    status: "scheduled",
+    published: false,
+    posted_at: new Date().toISOString().split('T')[0], // Today's date
   });
 
   const saveMutation = useMutation({
@@ -670,6 +673,7 @@ function UpdateForm({
         {
           project_id: projectId,
           ...formData,
+          posted_at: new Date(formData.posted_at).toISOString(),
         },
       ]);
       if (error) throw error;
@@ -707,8 +711,40 @@ function UpdateForm({
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               className={field}
-              placeholder="e.g., Walls Complete"
+              placeholder="e.g., Day 1: Site Setting Out"
             />
+          </div>
+
+          <div>
+            <label htmlFor="posted_at" className="text-sm font-medium">
+              Scheduled Date
+            </label>
+            <input
+              id="posted_at"
+              type="date"
+              required
+              value={formData.posted_at}
+              onChange={(e) => setFormData({ ...formData, posted_at: e.target.value })}
+              className={field}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="status" className="text-sm font-medium">
+              Status
+            </label>
+            <select
+              id="status"
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              className={field}
+            >
+              <option value="scheduled">Scheduled</option>
+              <option value="progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="hold">Inspection Hold</option>
+              <option value="delayed">Delayed</option>
+            </select>
           </div>
 
           <div>
@@ -721,8 +757,21 @@ function UpdateForm({
               onChange={(e) => setFormData({ ...formData, body: e.target.value })}
               className={field}
               rows={4}
-              placeholder="Progress details..."
+              placeholder="Activity details..."
             />
+          </div>
+
+          <div className="flex items-center gap-2 rounded border border-border bg-secondary/30 p-3">
+            <input
+              id="published"
+              type="checkbox"
+              checked={formData.published}
+              onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
+              className="size-4"
+            />
+            <label htmlFor="published" className="text-sm font-medium">
+              Published to client (client can see this task)
+            </label>
           </div>
 
           <div>
