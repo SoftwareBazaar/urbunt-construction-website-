@@ -6,12 +6,24 @@ import makueniAerial from "@/assets/makueni-school-aerial-view.jpg";
 import makueniExterior from "@/assets/makueni-school-exterior-front.jpg";
 import makueniInterior from "@/assets/makueni-school-interior-classroom.jpg";
 import makueniFunpark from "@/assets/makueni-funpark.jpg";
+import naivashaExterior1 from "@/assets/naivasha-exterior-1.jpg.jpeg";
+import naivashaExterior2 from "@/assets/naivasha-exterior-2.jpg.jpeg";
+import naivashaRoofConstruction from "@/assets/naivasha-roof-construction.jpg.jpeg";
+import naivashaRoofTimber from "@/assets/naivasha-roof-timber.jpg.jpeg";
+import naivashaBathroom from "@/assets/naivasha-bathroom.jpg.jpeg";
+import naivashaChandelier from "@/assets/naivasha-chandelier.jpg.jpeg";
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { ProjectGallery } from "@/components/ProjectGallery";
 import { projects, services, type Project } from "@/data/site";
 
-const images: Record<string, string> = { residential, commercial, civil, makueni: makueniAerial };
+const images: Record<string, string> = { 
+  residential, 
+  commercial, 
+  civil, 
+  makueni: makueniAerial,
+  naivasha: naivashaExterior1,
+};
 
 export const Route = createFileRoute("/portfolio/$slug")({
   loader: ({ params }): Project => {
@@ -62,7 +74,42 @@ function CaseStudy() {
     },
   ];
 
+  // Naivasha Luxury Residence Gallery Images
+  const naivashaGalleryImages = [
+    {
+      src: naivashaExterior1,
+      alt: "Naivasha luxury home exterior with landscaped driveway",
+      caption: "Completed exterior showing modern architecture and professional landscaping",
+    },
+    {
+      src: naivashaExterior2,
+      alt: "Naivasha home aerial view during construction",
+      caption: "Aerial perspective showing construction phase and property layout",
+    },
+    {
+      src: naivashaRoofTimber,
+      alt: "Engineered timber roof truss installation",
+      caption: "Precision timber roof truss framework - showcasing structural craftsmanship",
+    },
+    {
+      src: naivashaRoofConstruction,
+      alt: "Worker installing roof trusses",
+      caption: "Professional installation of engineered timber roof system",
+    },
+    {
+      src: naivashaChandelier,
+      alt: "Double-height entrance with designer chandelier and arched window",
+      caption: "Luxury entrance feature with custom chandelier and architectural arched window",
+    },
+    {
+      src: naivashaBathroom,
+      alt: "Spa-quality master bathroom with freestanding tub",
+      caption: "High-end bathroom finishes with freestanding tub and double vanity",
+    },
+  ];
+
   const isMakueniProject = project.slug === "makueni-school";
+  const isNaivashaProject = project.slug === "naivasha-luxury-residence";
 
   return (
     <SiteLayout>
@@ -77,6 +124,12 @@ function CaseStudy() {
           <>
             <h2 className="mb-6 text-2xl font-bold">Project Gallery</h2>
             <ProjectGallery images={makueniGalleryImages} title={project.title} />
+          </>
+        ) : isNaivashaProject ? (
+          // Show gallery for Naivasha Luxury Residence
+          <>
+            <h2 className="mb-6 text-2xl font-bold">Project Gallery</h2>
+            <ProjectGallery images={naivashaGalleryImages} title={project.title} />
           </>
         ) : (
           // Show single image for other projects

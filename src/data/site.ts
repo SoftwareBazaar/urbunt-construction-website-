@@ -303,6 +303,19 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "naivasha-luxury-residence",
+    title: "Naivasha Luxury Residence",
+    type: "Residential",
+    location: "Naivasha, Kenya",
+    year: 2020,
+    duration: "7 months (planned 8)",
+    budget: "KSh 18M",
+    image: "naivasha",
+    brief: "High-end family home featuring modern architectural design with distinctive arched windows and premium finishes. Project included structural works with engineered timber roof trusses, metal roofing system, luxury interior finishes including designer chandelier lighting and spa-quality bathroom fixtures. Professional landscaping and driveway completion.",
+    trades: ["architecture-design", "masonry", "carpentry", "roofing", "plumbing", "electrical", "plastering-ceilings", "painting-decor", "flooring", "landscaping"],
+    testimonial: { quote: "Urban T Construction delivered exceptional quality on our Naivasha home. The attention to detail and professional finish exceeded our expectations.", author: "Private Client", role: "Homeowner" },
+  },
+  {
     slug: "makueni-school",
     title: "Makueni School Complex",
     type: "Commercial",

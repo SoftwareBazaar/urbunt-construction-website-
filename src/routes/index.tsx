@@ -6,6 +6,7 @@ import residential from "@/assets/project-residential.jpg";
 import commercial from "@/assets/project-commercial.jpg";
 import civil from "@/assets/project-civil.jpg";
 import makueniAerial from "@/assets/makueni-school-aerial-view.jpg";
+import naivashaExterior from "@/assets/naivasha-exterior-1.jpg.jpeg";
 import { SiteLayout, TrustBar, SectionHeading } from "@/components/SiteLayout";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { SocialFeed } from "@/components/SocialFeed";
@@ -14,7 +15,13 @@ import { posts } from "@/data/blog";
 import { useWebsiteContent } from "@/hooks/useWebsiteContent";
 
 
-const images: Record<string, string> = { residential, commercial, civil, makueni: makueniAerial };
+const images: Record<string, string> = { 
+  residential, 
+  commercial, 
+  civil, 
+  makueni: makueniAerial,
+  naivasha: naivashaExterior,
+};
 
 export const Route = createFileRoute("/")({
   head: () => ({
