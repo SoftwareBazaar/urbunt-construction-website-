@@ -2,6 +2,13 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Trash2, Edit } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ScheduleTask {
   id: string;
@@ -13,6 +20,14 @@ interface ScheduleTask {
   status: string;
   published: boolean;
 }
+
+const STATUS_OPTIONS = [
+  { value: "scheduled", label: "Scheduled" },
+  { value: "progress", label: "In Progress" },
+  { value: "completed", label: "Completed" },
+  { value: "hold", label: "Inspection Hold" },
+  { value: "delayed", label: "Delayed" },
+] as const;
 
 export function ScheduleManager({ projectId, isAdmin = false }: { projectId: string; isAdmin?: boolean }) {
   const qc = useQueryClient();
@@ -34,11 +49,15 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
 
   const updateTask = useMutation({
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<ScheduleTask> }) => {
-      const { error } = await supabase
+      const { data, error } = await supabase
         .from("project_updates")
         .update(updates)
-        .eq("id", id);
+        .eq("id", id)
+        .select("id");
       if (error) throw error;
+      if (!data?.length) {
+        throw new Error("Status update was blocked. Confirm you are signed in as admin/staff.");
+      }
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["schedule", projectId] });
@@ -162,24 +181,36 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                     task.title
                   )}
                 </td>
-                <td className="px-3 py-2">
+                <td className="relative px-3 py-2">
                   {isAdmin ? (
-                    <select
-                      value={task.status || 'scheduled'}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        updateTask.mutate({ id: task.id, updates: { status: e.target.value } });
+                    <Select
+                      value={task.status || "scheduled"}
+                      onValueChange={(value) => {
+                        updateTask.mutate(
+                          { id: task.id, updates: { status: value } },
+                          {
+                            onError: (err) => {
+                              console.error("Failed to update status:", err);
+                              alert(err instanceof Error ? err.message : "Failed to update status");
+                            },
+                          },
+                        );
                       }}
-                      onMouseDown={(e) => e.stopPropagation()}
-                      onClick={(e) => e.stopPropagation()}
-                      className="rounded border border-border bg-white px-2 py-1 text-xs !cursor-pointer hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     >
-                      <option value="scheduled">Scheduled</option>
-                      <option value="progress">In Progress</option>
-                      <option value="completed">Completed</option>
-                      <option value="hold">Inspection Hold</option>
-                      <option value="delayed">Delayed</option>
-                    </select>
+                      <SelectTrigger
+                        className="relative z-10 h-8 w-[150px] cursor-pointer border-border bg-white text-xs shadow-none"
+                        aria-label={`Status for ${task.title}`}
+                      >
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent position="popper" sideOffset={4} className="z-[100]">
+                        {STATUS_OPTIONS.map((opt) => (
+                          <SelectItem key={opt.value} value={opt.value} className="cursor-pointer text-xs">
+                            {opt.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   ) : (
                     <span
                       className={`inline-block rounded px-2 py-1 text-xs font-bold uppercase ${

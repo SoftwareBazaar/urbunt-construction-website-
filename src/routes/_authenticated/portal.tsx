@@ -208,7 +208,7 @@ function ClientPortal() {
                 ) : null}
               </section>
 
-              <section className="grid gap-8 lg:grid-cols-[280px_1fr]">
+              <section className="grid gap-8 lg:grid-cols-[240px_1fr]">
                 <div className="surface-card p-6">
                   <p className="eyebrow">Milestones</p>
                   <ol className="mt-4 space-y-4">
