@@ -266,7 +266,8 @@ function ClientPortal() {
                       </article>
                     ))}
                     {detail.data && detail.data.updates.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">No site updates posted yet.</p> : null}
+                      <p className="text-sm text-muted-foreground">No site updates posted yet.</p>
+                    ) : null}
                   </div>
                 </div>
               </section>
