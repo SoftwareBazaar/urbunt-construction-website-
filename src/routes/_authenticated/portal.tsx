@@ -208,7 +208,7 @@ function ClientPortal() {
                 ) : null}
               </section>
 
-              <section className="grid gap-8 lg:grid-cols-2">
+              <section className="grid gap-8 lg:grid-cols-[280px_1fr]">
                 <div className="surface-card p-6">
                   <p className="eyebrow">Milestones</p>
                   <ol className="mt-4 space-y-4">
@@ -242,7 +242,7 @@ function ClientPortal() {
                 </div>
 
                 <div className="surface-card p-6">
-                  <p className="eyebrow">Site updates</p>
+                  <p className="eyebrow">Schedule</p>
                   <div className="mt-4">
                     <ScheduleManager projectId={current.id} isAdmin={false} />
                   </div>
