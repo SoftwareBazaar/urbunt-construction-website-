@@ -121,97 +121,103 @@ ON CONFLICT DO NOTHING;
 -- 3. DETAILED WORK SCHEDULE (Daily Progress Updates)
 -- =====================================================
 
-INSERT INTO project_updates (project_id, title, body, posted_at) VALUES
+INSERT INTO project_updates (project_id, title, body, posted_at, status, published) VALUES
 
 -- Week 1: Foundation Works
 
--- Saturday (Tomorrow)
+-- Friday Sept 11
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 1: Site Setting Out', 
+ 'Site mobilisation, clearance and preparation', 
  'Site establishment and accurate setting out of foundation grid using white wash marking. Verification of plot boundaries (LR No. MAKUYU/KIMORORI BLK. III/8090) and structural grid alignment. Site office setup with tools and equipment.', 
- CURRENT_DATE),
+ '2026-09-11'::date, 'completed', true),
 
--- Monday
+-- Saturday Sept 12
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 2: Excavation & Foundation Preparation', 
+ 'Setting out of the building — grid lines and reference points', 
+ 'Setting out reinforced concrete column positions with precision. Grid line establishment and verification. Reference point marking for all structural elements.', 
+ '2026-09-12'::date, 'scheduled', true),
+
+-- Monday Sept 14
+('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
+ 'Excavation works; commencement of column and beam layout', 
  'Excavation of foundation trenches to specified depth. Installation of reinforcement bars (D12, D8, D10) for foundation beams and columns. Preparation of formwork timber (Grevillea). Quality check of excavation levels and alignment.', 
- CURRENT_DATE + INTERVAL '2 days'),
+ '2026-09-14'::date, 'scheduled', true),
 
--- Tuesday
+-- Tuesday Sept 15
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 3: Column Setting & Formwork Creation', 
- 'Setting out reinforced concrete column positions with precision. Creation and installation of column formwork using Grevillea timber. Quality inspection of reinforcement placement and spacing. Preparation for foundation concrete works.', 
- CURRENT_DATE + INTERVAL '3 days'),
+ 'Column setting-out and fabrication of formwork', 
+ 'Creation and installation of column formwork using Grevillea timber. Quality inspection of reinforcement placement and spacing. Preparation for foundation concrete works.', 
+ '2026-09-15'::date, 'scheduled', true),
 
--- Wednesday
+-- Wednesday Sept 16
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 4: Foundation Formwork Installation', 
+ 'Foundation formwork installation begins', 
  'Foundation formwork assembly and installation begins. Placement of BRC mesh and DPM (damp-proof membrane)/polythene sheeting. Final inspection and verification before concrete pour. Concrete mixer mobilization on site.', 
- CURRENT_DATE + INTERVAL '4 days'),
+ '2026-09-16'::date, 'scheduled', true),
 
--- Thursday
+-- Thursday Sept 17
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 5: Foundation Casting (Columns & Beams)', 
+ 'Casting of foundation columns and ground beams; formwork finishing', 
  'Casting of foundation columns and concrete beams. Finishing of formwork to ensure smooth surfaces. Concrete mixer operation with quality control of mix ratios. Proper compaction and vibration of concrete. Curing process initiated.', 
- CURRENT_DATE + INTERVAL '5 days'),
+ '2026-09-17'::date, 'hold', true),
 
--- Friday
+-- Friday Sept 18
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 6: Foundation Casting Completion', 
+ 'Continued casting of foundation columns and beams', 
  'Continuation and completion of foundation column and beam casting. Ensuring proper concrete consolidation and quality. Regular water curing to achieve design strength. Quality inspection by site engineer. Progress documentation.', 
- CURRENT_DATE + INTERVAL '6 days'),
+ '2026-09-18'::date, 'scheduled', true),
 
--- Saturday
+-- Saturday Sept 19
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 7: Precast Slab Preparation & Laying', 
+ 'Delivery and laying of precast slab panels', 
  'Positioning and laying of precast slabs over foundation structure. Installation of timber props (probes + Grevillea 3x2) for adequate support. Alignment verification and leveling. Preparation for ground floor slab works.', 
- CURRENT_DATE + INTERVAL '7 days'),
+ '2026-09-19'::date, 'scheduled', true),
 
 -- Week 2: Ground Floor Slab & Column Raising
 
--- Monday
+-- Monday Sept 21
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 8: Ground Floor Slab Casting', 
+ 'Casting of the ground floor slab', 
  'Casting of ground floor slab covering full 108 sq.m area. Concrete pouring, spreading, and professional leveling. Installation of DPM under slab for moisture protection. Proper screeding and finishing. Curing preparations with water spray.', 
- CURRENT_DATE + INTERVAL '9 days'),
+ '2026-09-21'::date, 'scheduled', true),
 
--- Tuesday
+-- Tuesday Sept 22
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 9: Column Raising & Formwork Commencement', 
+ 'Raising of superstructure columns; formwork erection begins', 
  'Raising of ground floor columns to support roof structure. Installation of column reinforcement bars (D12, D10). Formwork assembly for elevated columns begins. Quality checks on reinforcement placement and column alignment.', 
- CURRENT_DATE + INTERVAL '10 days'),
+ '2026-09-22'::date, 'scheduled', true),
 
--- Wednesday
+-- Wednesday Sept 23
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 10: Column Formwork Continuation', 
+ 'Continuation of superstructure formwork', 
  'Continuation of column formwork installation with precision carpentry. Quality inspections on reinforcement positioning and spacing. Preparation for structural beam formwork. Ensuring vertical alignment of all columns.', 
- CURRENT_DATE + INTERVAL '11 days'),
+ '2026-09-23'::date, 'scheduled', true),
 
--- Thursday
+-- Thursday Sept 24
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 11: Structural Formwork Completion', 
+ 'Completion of superstructure formwork', 
  'Completion of all structural column and beam formwork. Final inspection before concrete casting operations. Beam formwork installation complete with proper support. Quality assurance checks by site engineer.', 
- CURRENT_DATE + INTERVAL '12 days'),
+ '2026-09-24'::date, 'scheduled', true),
 
--- Friday
+-- Friday Sept 25
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 12: Structural Column & Beam Casting', 
+ 'Casting of superstructure columns and beams', 
  'Casting of raised columns and structural beams. Concrete quality control with proper mix ratios. Adequate vibration and compaction for structural integrity. Curing process initiated. Safety measures in place during casting.', 
- CURRENT_DATE + INTERVAL '13 days'),
+ '2026-09-25'::date, 'hold', true),
 
--- Saturday
+-- Saturday Sept 26
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 13: Roof Level Formwork & Precast Preparation', 
+ 'First-floor formwork preparation; precast slab delivery to site', 
  'Formwork preparation for roof slab level (with provisions for future first floor expansion). Positioning and laying of precast slabs for roof structure. Quality checks on precast slab alignment. Preparation for roof slab casting.', 
- CURRENT_DATE + INTERVAL '14 days'),
+ '2026-09-26'::date, 'scheduled', true),
 
 -- Week 3: Roof Slab Completion
 
--- Monday
+-- Monday Sept 28
 ('a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d', 
- 'Day 14: Roof Slab Casting & Installation', 
+ 'Installation of precast slab panels; casting of first-floor slab', 
  'Installation of final precast slab units for complete roof coverage. Casting of roof slab over 108 sq.m area. Waterproofing preparation and membrane application. Quality control of concrete mix and finish. Curing regime established for optimal strength gain.', 
- CURRENT_DATE + INTERVAL '16 days')
+ '2026-09-28'::date, 'scheduled', true)
 
 ON CONFLICT DO NOTHING;
 
