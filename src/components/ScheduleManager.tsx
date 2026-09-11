@@ -89,8 +89,8 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
   }
 
   return (
-    <div className="overflow-x-auto relative">
-      <table className="w-full text-sm relative z-0">
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm">
         <thead>
           <tr className="border-b-2 border-primary">
             <th className="bg-primary px-3 py-2 text-left text-xs font-bold uppercase text-primary-foreground">
@@ -162,7 +162,7 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                     task.title
                   )}
                 </td>
-                <td className="px-3 py-2 relative z-10">
+                <td className="px-3 py-2">
                   {isAdmin ? (
                     <select
                       value={task.status || 'scheduled'}
@@ -172,8 +172,7 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                       }}
                       onMouseDown={(e) => e.stopPropagation()}
                       onClick={(e) => e.stopPropagation()}
-                      className="relative z-20 rounded border border-border bg-white px-2 py-1 text-xs cursor-pointer hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                      style={{ pointerEvents: 'auto' }}
+                      className="rounded border border-border bg-white px-2 py-1 text-xs !cursor-pointer hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     >
                       <option value="scheduled">Scheduled</option>
                       <option value="progress">In Progress</option>
