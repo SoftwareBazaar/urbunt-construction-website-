@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit } from "lucide-react";
 
 interface ScheduleTask {
   id: string;
@@ -16,6 +16,8 @@ interface ScheduleTask {
 
 export function ScheduleManager({ projectId, isAdmin = false }: { projectId: string; isAdmin?: boolean }) {
   const qc = useQueryClient();
+  const [editingTask, setEditingTask] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
 
   const tasks = useQuery({
     queryKey: ["schedule", projectId],
@@ -73,8 +75,8 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
   };
 
   const filteredTasks = isAdmin 
-    ? (tasks.data ?? []) 
-    : (tasks.data ?? []).filter(t => t.published !== false); // Show if published is true OR null (backwards compat)
+    ? (tasks.data ?? []).filter(t => new Date(t.posted_at).getDay() !== 0) // Admin: skip Sundays
+    : (tasks.data ?? []).filter(t => t.published !== false && new Date(t.posted_at).getDay() !== 0); // Client: skip Sundays AND only published
 
   if (tasks.isLoading) return <p className="text-sm text-muted-foreground">Loading schedule...</p>;
   if (tasks.error) return <p className="text-sm text-red-500">Error loading schedule</p>;
@@ -120,30 +122,55 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
             const date = new Date(task.posted_at);
             const dayName = date.toLocaleDateString("en-GB", { weekday: "long" });
             const shortDate = date.toLocaleDateString("en-GB", { day: "2-digit", month: "short" });
-            const isSunday = date.getDay() === 0;
+            const isEditing = editingTask === task.id;
 
             return (
               <tr
                 key={task.id}
                 className={`border-b border-border ${
-                  isSunday
-                    ? "bg-gray-50 italic text-gray-500"
-                    : idx % 2 === 0
-                    ? "bg-white"
-                    : "bg-gray-50/30"
+                  idx % 2 === 0 ? "bg-white" : "bg-gray-50/30"
                 }`}
               >
                 <td className="px-3 py-2">{dayName}</td>
                 <td className="px-3 py-2">{shortDate}</td>
-                <td className="px-3 py-2">{task.title}</td>
+                <td className="px-3 py-2">
+                  {isEditing ? (
+                    <input
+                      type="text"
+                      value={editTitle}
+                      onChange={(e) => setEditTitle(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          updateTask.mutate(
+                            { id: task.id, updates: { title: editTitle } },
+                            {
+                              onSuccess: () => {
+                                setEditingTask(null);
+                                setEditTitle("");
+                              },
+                            }
+                          );
+                        } else if (e.key === "Escape") {
+                          setEditingTask(null);
+                          setEditTitle("");
+                        }
+                      }}
+                      className="w-full rounded border border-primary px-2 py-1 text-sm"
+                      autoFocus
+                    />
+                  ) : (
+                    task.title
+                  )}
+                </td>
                 <td className="px-3 py-2">
                   {isAdmin ? (
                     <select
                       value={task.status || 'scheduled'}
-                      onChange={(e) =>
-                        updateTask.mutate({ id: task.id, updates: { status: e.target.value } })
-                      }
-                      className="rounded border border-border bg-white px-2 py-1 text-xs"
+                      onChange={(e) => {
+                        e.stopPropagation();
+                        updateTask.mutate({ id: task.id, updates: { status: e.target.value } });
+                      }}
+                      className="rounded border border-border bg-white px-2 py-1 text-xs cursor-pointer hover:border-primary focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                     >
                       <option value="scheduled">Scheduled</option>
                       <option value="progress">In Progress</option>
@@ -171,23 +198,67 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
                           onChange={(e) =>
                             updateTask.mutate({ id: task.id, updates: { published: e.target.checked } })
                           }
-                          className="size-4"
+                          className="size-4 cursor-pointer"
                         />
                         <span className="text-xs">Published</span>
                       </label>
                     </td>
                     <td className="px-3 py-2 text-center">
-                      <button
-                        onClick={() => {
-                          if (confirm(`Delete task "${task.title}"?`)) {
-                            deleteTask.mutate(task.id);
-                          }
-                        }}
-                        className="rounded p-1 text-red-500 hover:bg-red-50"
-                        title="Delete task"
-                      >
-                        <Trash2 className="size-4" />
-                      </button>
+                      <div className="flex items-center justify-center gap-1">
+                        {isEditing ? (
+                          <>
+                            <button
+                              onClick={() => {
+                                updateTask.mutate(
+                                  { id: task.id, updates: { title: editTitle } },
+                                  {
+                                    onSuccess: () => {
+                                      setEditingTask(null);
+                                      setEditTitle("");
+                                    },
+                                  }
+                                );
+                              }}
+                              className="rounded bg-primary px-2 py-1 text-xs text-primary-foreground hover:bg-primary/90"
+                            >
+                              Save
+                            </button>
+                            <button
+                              onClick={() => {
+                                setEditingTask(null);
+                                setEditTitle("");
+                              }}
+                              className="rounded bg-gray-200 px-2 py-1 text-xs text-gray-700 hover:bg-gray-300"
+                            >
+                              Cancel
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              onClick={() => {
+                                setEditingTask(task.id);
+                                setEditTitle(task.title);
+                              }}
+                              className="rounded p-1 text-blue-600 hover:bg-blue-50"
+                              title="Edit task"
+                            >
+                              <Edit className="size-4" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                if (confirm(`Delete task "${task.title}"?`)) {
+                                  deleteTask.mutate(task.id);
+                                }
+                              }}
+                              className="rounded p-1 text-red-500 hover:bg-red-50"
+                              title="Delete task"
+                            >
+                              <Trash2 className="size-4" />
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </td>
                   </>
                 )}
