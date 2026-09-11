@@ -23,7 +23,7 @@
 
 DO $$
 DECLARE
-  collins_uid uuid := 'YOUR_COLLINS_USER_ID'::uuid;  -- ⚠️ REPLACE THIS!
+  collins_uid uuid := '7fa0c87e-b645-46f7-8db5-a643cba7e593'::uuid;  -- ✅ Collins' User ID
   collins_project_id uuid;
 BEGIN
 

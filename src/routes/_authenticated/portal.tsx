@@ -47,10 +47,16 @@ function ClientPortal() {
   const projects = useQuery({
     queryKey: ["portal", "projects"],
     queryFn: async () => {
+      // Get current logged-in user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+      
+      // Only fetch projects for THIS user
       const { data, error } = await supabase
         .from("client_projects")
         .select("*")
-        .order("created_at", { ascending: false });
+        .eq("client_user_id", user.id)  // ✅ Filter by logged-in user
+        .order("created_at", { ascending: false});
       if (error) throw error;
       return data;
     },
@@ -239,7 +245,14 @@ function ClientPortal() {
                   <div className="mt-4 space-y-5">
                     {(detail.data?.updates ?? []).map((u) => (
                       <article key={u.id} className="border-l-2 border-accent pl-4">
-                        <p className="text-xs uppercase tracking-wide text-muted-foreground">{date(u.posted_at)}</p>
+                        <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                          {new Date(u.posted_at).toLocaleDateString("en-KE", { 
+                            weekday: 'short',
+                            day: "numeric", 
+                            month: "short", 
+                            year: "numeric" 
+                          })}
+                        </p>
                         <p className="mt-1 font-display font-bold">{u.title}</p>
                         {u.body ? <p className="mt-1 text-sm text-muted-foreground">{u.body}</p> : null}
                         {u.photo_url ? (
@@ -253,8 +266,7 @@ function ClientPortal() {
                       </article>
                     ))}
                     {detail.data && detail.data.updates.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">No site updates posted yet.</p>
-                    ) : null}
+                      <p className="text-sm text-muted-foreground">No site updates posted yet.</p> : null}
                   </div>
                 </div>
               </section>
