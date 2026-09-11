@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Plus, Edit, Trash2, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AdminLayout } from "@/components/AdminLayout";
+import { ScheduleManager } from "@/components/ScheduleManager";
 
 export const Route = createFileRoute("/_authenticated/admin/projects")({
   component: ProjectManagement,
@@ -238,6 +239,13 @@ function ProjectCard({
         >
           + Add Progress Update
         </button>
+      </div>
+
+      <div className="mt-6">
+        <h4 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">
+          Schedule
+        </h4>
+        <ScheduleManager projectId={project.id} isAdmin={true} />
       </div>
     </div>
   );
