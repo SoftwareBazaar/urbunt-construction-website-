@@ -108,8 +108,8 @@ export function ScheduleManager({ projectId, isAdmin = false }: { projectId: str
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+    <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
+      <table className="w-full text-sm min-w-[600px]">
         <thead>
           <tr className="border-b-2 border-primary">
             <th className="bg-primary px-3 py-2 text-left text-xs font-bold uppercase text-primary-foreground">
