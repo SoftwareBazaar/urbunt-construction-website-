@@ -5,6 +5,7 @@ import commercial from "@/assets/project-commercial.jpg";
 import civil from "@/assets/project-civil.jpg";
 import makueniAerial from "@/assets/makueni-school-aerial-view.jpg";
 import naivashaExterior from "@/assets/naivasha-exterior-1.jpg.jpeg";
+import karenExterior from "@/assets/karen-exterior-full.jpg.jpeg";
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
 import { projects } from "@/data/site";
 
@@ -14,6 +15,7 @@ const images: Record<string, string> = {
   civil, 
   makueni: makueniAerial,
   naivasha: naivashaExterior,
+  karen: karenExterior,
 };
 const filters = ["All", "Residential", "Commercial", "Civil"] as const;
 
