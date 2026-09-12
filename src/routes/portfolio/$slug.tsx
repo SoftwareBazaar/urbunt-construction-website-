@@ -177,10 +177,6 @@ function CaseStudy() {
           // Show gallery for Karen Signature Villa
           <>
             <h2 className="mb-6 text-2xl font-bold">Project Gallery</h2>
-            <div className="mb-4 rounded-lg bg-amber-50 border-l-4 border-amber-500 p-4">
-              <p className="text-sm font-semibold text-amber-800">🚧 Project In Progress</p>
-              <p className="mt-1 text-sm text-amber-700">Construction ongoing - photos show current status and architectural features</p>
-            </div>
             <ProjectGallery images={karenGalleryImages} title={project.title} />
           </>
         ) : (
