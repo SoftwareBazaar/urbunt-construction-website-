@@ -2,11 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Star, Quote } from "lucide-react";
 import heroImg from "@/assets/hero-site.jpg";
 
-import residential from "@/assets/project-residential.jpg";
+import residential from "@/assets/karen-exterior-full.jpg.jpeg";
 import commercial from "@/assets/project-commercial.jpg";
 import civil from "@/assets/project-civil.jpg";
 import makueniAerial from "@/assets/makueni-school-aerial-view.jpg";
 import naivashaExterior from "@/assets/naivasha-exterior-1.jpg.jpeg";
+import karenExterior from "@/assets/karen-exterior-full.jpg.jpeg";
 import { SiteLayout, TrustBar, SectionHeading } from "@/components/SiteLayout";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { SocialFeed } from "@/components/SocialFeed";
@@ -21,6 +22,7 @@ const images: Record<string, string> = {
   civil, 
   makueni: makueniAerial,
   naivasha: naivashaExterior,
+  karen: karenExterior,
 };
 
 export const Route = createFileRoute("/")({
@@ -230,7 +232,7 @@ function Home() {
               Browse case studies <ArrowRight className="size-4" />
             </Link>
           </div>
-          <BeforeAfter image={residential} alt="Karen Signature Villa" />
+          <BeforeAfter image={karenExterior} alt="Karen Signature Villa" />
         </div>
       </section>
 

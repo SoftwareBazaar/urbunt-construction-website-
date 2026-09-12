@@ -12,6 +12,12 @@ import naivashaRoofConstruction from "@/assets/naivasha-roof-construction.jpg.jp
 import naivashaRoofTimber from "@/assets/naivasha-roof-timber.jpg.jpeg";
 import naivashaBathroom from "@/assets/naivasha-bathroom.jpg.jpeg";
 import naivashaChandelier from "@/assets/naivasha-chandelier.jpg.jpeg";
+import karenExteriorFull from "@/assets/karen-exterior-full.jpg.jpeg";
+import karenExteriorColumns from "@/assets/karen-exterior-columns.jpg.jpeg";
+import karenExteriorScaffolding from "@/assets/karen-exterior-scaffolding.jpg.jpeg";
+import karenCourtyard from "@/assets/karen-courtyard.jpg.jpeg";
+import karenStaircaseInterior from "@/assets/karen-staircase-interior.jpg.jpeg";
+import karenStaircaseView from "@/assets/karen-staircase-view.jpg.jpeg";
 import { SiteLayout, PageHero } from "@/components/SiteLayout";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { ProjectGallery } from "@/components/ProjectGallery";
@@ -23,6 +29,7 @@ const images: Record<string, string> = {
   civil, 
   makueni: makueniAerial,
   naivasha: naivashaExterior1,
+  karen: karenExteriorFull,
 };
 
 export const Route = createFileRoute("/portfolio/$slug")({
@@ -108,8 +115,43 @@ function CaseStudy() {
     },
   ];
 
+  // Karen Signature Villa Gallery Images
+  const karenGalleryImages = [
+    {
+      src: karenExteriorFull,
+      alt: "Karen Villa full exterior view with classical architecture",
+      caption: "Completed two-storey villa exterior with ornamental Roman columns and premium facade",
+    },
+    {
+      src: karenExteriorColumns,
+      alt: "Karen Villa decorative column details",
+      caption: "Classical column architecture with decorative capitals and clean modern finish",
+    },
+    {
+      src: karenExteriorScaffolding,
+      alt: "Karen Villa construction progress with scaffolding",
+      caption: "Construction phase showing structural framework and exterior detailing in progress",
+    },
+    {
+      src: karenCourtyard,
+      alt: "Karen Villa interior courtyard with decorative railings",
+      caption: "Interior courtyard featuring ornamental metalwork railings and architectural arches",
+    },
+    {
+      src: karenStaircaseInterior,
+      alt: "Curved architectural staircase with arched openings",
+      caption: "Signature curved staircase with elegant arches and dual-stairway design",
+    },
+    {
+      src: karenStaircaseView,
+      alt: "Alternative view of grand staircase",
+      caption: "Dual-direction staircase showcasing architectural sophistication and open-plan design",
+    },
+  ];
+
   const isMakueniProject = project.slug === "makueni-school";
   const isNaivashaProject = project.slug === "naivasha-luxury-residence";
+  const isKarenProject = project.slug === "karen-signature-villa";
 
   return (
     <SiteLayout>
@@ -130,6 +172,16 @@ function CaseStudy() {
           <>
             <h2 className="mb-6 text-2xl font-bold">Project Gallery</h2>
             <ProjectGallery images={naivashaGalleryImages} title={project.title} />
+          </>
+        ) : isKarenProject ? (
+          // Show gallery for Karen Signature Villa
+          <>
+            <h2 className="mb-6 text-2xl font-bold">Project Gallery</h2>
+            <div className="mb-4 rounded-lg bg-amber-50 border-l-4 border-amber-500 p-4">
+              <p className="text-sm font-semibold text-amber-800">🚧 Project In Progress</p>
+              <p className="mt-1 text-sm text-amber-700">Construction ongoing - photos show current status and architectural features</p>
+            </div>
+            <ProjectGallery images={karenGalleryImages} title={project.title} />
           </>
         ) : (
           // Show single image for other projects
